@@ -1,0 +1,215 @@
+/*
+    AUTHOR: Sam Johnson
+    MINIMusic Player 
+*/
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #141942;
+}
+
+/* HTML5 Audio player with playlist styles */
+.example {
+    margin: 50px auto 0;
+    width: 390px;
+}
+.mp-player {
+    background: #f09f8b;
+    height: 220px;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+}
+.mp-title, .mp-artist {
+    font-family: verdana;
+    left: 167px;
+    position: absolute;
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+.mp-title {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    top: 23px;
+}
+.mp-artist {
+    color: #EEEEEE;
+    font-size: 12px;
+    top: 40px;
+}
+.mp-pl {
+    background: url(../images/playlist.png) no-repeat;
+    cursor: pointer;
+    height: 40px;
+    left: 330px;
+    position: absolute;
+    top: 20px;
+    width: 39px;
+}
+.mp-pl:hover {
+    top: 21px;
+}
+.mp-cover {
+    border-radius: 5px 5px 5px 5px;
+    height: 94px;
+    left: 20px;
+    position: absolute;
+    top: 30px;
+    width: 94px;
+}
+.mp-controls {
+    cursor: pointer;
+    left: 0px;
+    position: absolute;
+    top: 65px;
+    left: 122px;
+}
+.mp-controls .mp-play, .mp-controls .mp-pause {
+    width: 60px;
+    height: 60px;
+    margin: 0 5px 0px 5px;
+}
+.mp-controls .mp-play, .mp-controls .mp-pause, .mp-controls .mp-rew, .mp-controls .mp-fwd, .mp-controls .mp-stop {
+   text-indent: -10000px;
+    border: none;
+    float: left;
+}
+.mp-controls .mp-rew, .mp-controls .mp-fwd, .mp-controls .mp-stop {
+    width: 50px;
+    height: 50px;
+    margin: 5px 5px 5px 5px;
+}
+.mp-controls .mp-play {
+    background: url(../images/play.png) no-repeat;
+}
+.mp-controls .mp-pause {
+    background: url(../images/pause.png) no-repeat;
+    display: none;
+}
+.mp-controls .mp-rew {
+    background: url(../images/rewind.png) no-repeat;
+}
+.mp-controls .mp-fwd {
+    background: url(../images/next.png) no-repeat;
+}
+.mp-controls .mp-stop {
+    background: url(../images/stop.png) no-repeat;
+}
+.hidden {
+    display: none;
+}
+.mp-controls .visible {
+    display: block;
+}
+.mp-volume {
+    height: 11px;
+    left: 230px;
+    position: absolute;
+    top: 142px;
+    width: 140px;
+}
+.mp-mute  .mp-volume-btn {
+    background: url(../images/volume-off.png) no-repeat;
+}
+.mp-volume-btn {
+    background: url(../images/volume-up.png) no-repeat;
+    height: 20px;
+    width: 20px;
+    float: left;
+    position: relative;
+    top: -4px;
+}
+.mp-volume-adjust {
+    height: 11px;
+    position: relative;
+    width: 80%;
+    background: #fff;
+    float: right;
+}
+.mp-volume-adjust  > div > div {
+    height: 11px;
+    background: #151B48;
+}
+.mp-progressbar
+{
+    background-color: #fff;
+    cursor: pointer;
+    z-index: 1;
+    right: 6.875em; /* 110 */
+     height: 15px;
+    left: 0px;
+    position: absolute;
+    width: 90%;
+    top: 170px;
+    margin: 0px 5%;
+}
+.mp-novolume .mp-progressbar
+{
+    right: 4.375em; /* 70 */
+}
+.mp-progressbar div
+{
+    width: 0%;
+    height: 15px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.mp-bar-loaded
+{
+    background-color: #f1f1f1;
+    z-index: 1;
+}
+.mp-bar-played
+{
+    background: #151B48;
+    z-index: 2;
+}
+.mp-timeHolder {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    bottom: 10px;
+    position: absolute;
+    margin: 0px 5%;
+    width: 90%;
+}
+.mp-time-current, .mp-time-duration, .mp-time-separator {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    float: left;
+}
+.mp-volume .ui-slider-handle {
+    background: url("../images/spr.png") no-repeat scroll -201px -188px rgba(0, 0, 0, 0);
+    height: 13px;
+    width: 13px;
+}
+.mp-playlist {
+    background-color: #fff;
+    list-style-type: none;
+    margin: -10px 0 0 2px;
+    padding-bottom: 10px;
+    padding-top: 15px;
+    position: relative;
+    width: 95%;
+    z-index: 1;
+    margin: 0px auto;
+}
+.mp-playlist li {
+    color: #151B48;
+    cursor: pointer;
+    margin: 0 0 5px 15px;
+}
+.mp-playlist li > a {
+   color: #151B48;
+   text-decoration: none; 
+}
+.mp-playlist li.active {
+    font-weight: bold;
+}
