@@ -1,6 +1,7 @@
 /*
     AUTHOR: Sam Johnson
     MINIMusic Player 
+    RESOURCES: https://www.ibm.com/developerworks/library/wa-ioshtml5/ 
 */
 ;(function( $, window, document, undefined )
 {
