@@ -1,7 +1,6 @@
 /*
     AUTHOR: Sam Johnson
     MINIMusic Player 
-    RESOURCES: https://www.ibm.com/developerworks/library/wa-ioshtml5/ 
 */
 ;(function( $, window, document, undefined )
 {
@@ -26,8 +25,6 @@
             // inner variables
             var options = $.extend( { autoPlay: false , volume: 80, loop: false, timeSeparator: ' / ',  infoElements: ['title' , 'artist'] , elements: ['artwork', 'information', 'controls', 'progress', 'time', 'volume'],  timeElements: ['current', 'duration'],  controlElements: ['backward', 'play', 'forward', 'stop'], onLoad: function() {}, onPlay: function() {}, onPause: function() {}, onStop: function() {}, onFwd: function() {}, onRew: function() {}, volumeChanged: function() {}, progressChanged: function() {} , trackClicked: function() {}  }, options ),
                 song,  
-                tracker = $('.mp-progressbar'),
-                volume  = $('.mp-volume'),
                 controlInnerElem = "" ,
                 timeInnerElem    = "",
                 infoElem = "",  
@@ -37,9 +34,10 @@
                 progressElem     = "",
                 artworkElem  = "" ,
                 timeElem = "",
-                controlElem = "";
-
-            
+                controlElem = "",  
+                container   = this; //users selector
+               
+                            
             //PREPARE MUSIC PLAYER ELEMENTS
             for( var elemItem in options.elements ) 
             { 
@@ -47,54 +45,54 @@
                 //PREPARE VOLUME
                 if (options.elements[elemItem] == "volume" ) {
 
-                    volumeElem   = "<div class='mp-volume' ><div class='mp-volume-btn' title='Volume'></div><div class=' mp-volume-adjust'><div><div></div></div></div></div>" ;
+                    volumeElem   = "<div class='volume'><div class='volume-btn' title='Volume'></div><div class=' volume-adjust'><div><div></div></div></div></div>" ;
                     fullPlayerElem  += volumeElem; 
                 }
                 //PREPARE PROGRESS
                 else if (options.elements[elemItem] == "progress" ) {
-                    progressElem = "<div class='mp-progressbar'><div class='mp-bar-loaded' ></div><div class='mp-bar-played'></div></div>";
+                    progressElem = "<div class='progressbar'><div class='bar-loaded' ></div><div class='bar-played'></div></div>";
                     fullPlayerElem  += progressElem; 
                 }
                 //PREPARE ARTWORK
                 else if (options.elements[elemItem] == "artwork" ) {
-                   artworkElem = "<div class='mp-cover'></div>";
+                   artworkElem = "<div class='cover'></div>";
                    fullPlayerElem  += artworkElem; 
                 }
                 //PREPARE INFORMATION displayed by the player in  the given order
                 else if (options.elements[elemItem] == "information" ) {
                     
-                    $.inArray("title", options.infoElements ) != '-1'   ? titleElem     = "<div class='mp-title'></div>"  : titleElem = " " ;
-                    $.inArray("artist", options.infoElements ) != '-1'  ? artistElem    = "<div class='mp-artist'></div>" : artistElem = " " ;
+                    $.inArray("title", options.infoElements ) != '-1'   ? titleElem     = "<div class='title'></div>"  : titleElem = " " ;
+                    $.inArray("artist", options.infoElements ) != '-1'  ? artistElem    = "<div class='artist'></div>" : artistElem = " " ;
                     
                     for( var item in options.infoElements ) {  
                         if (options.infoElements[item] == "title" ) {    infoInnerElem += titleElem;  }
                         else if ( options.infoElements[item]  == "artist" ) {   infoInnerElem += artistElem ;  }
                     }
-                    infoElem = "<div class='mp-info' >" + infoInnerElem + "</div>";
+                    infoElem = "<div class='info' >" + infoInnerElem + "</div>";
                     fullPlayerElem  += infoElem; 
                 }
                 //PREPARE TIME (current & Duration) in the given order
                 else if (options.elements[elemItem] == "time" ) {
                 
-                    $.inArray("current", options.timeElements) != '-1'  ? curTimeElem = "<div class='mp-time-current'></div>" : curTimeElem = " " ;                    
-                    $.inArray("duration", options.timeElements) != '-1' ? durTimeElem = "<div class='mp-time-duration'></div>" : durTimeElem = " " ;
-                    timeSeparator =  "<div class='mp-time-separator'>" + options.timeSeparator.replace(/\s/g, '&nbsp;') + "</div>" ;  
+                    $.inArray("current", options.timeElements) != '-1'  ? curTimeElem = "<div class='time-current'></div>" : curTimeElem = " " ;                    
+                    $.inArray("duration", options.timeElements) != '-1' ? durTimeElem = "<div class='time-duration'></div>" : durTimeElem = " " ;
+                    timeSeparator =  "<div class='time-separator'>" + options.timeSeparator.replace(/\s/g, '&nbsp;') + "</div>" ;  
                     
                     for( var item in options.timeElements ) {  
                         if( item == 1 ) { timeInnerElem +=  timeSeparator; }
                         if (options.timeElements[item] == "current" ) {    timeInnerElem += curTimeElem ;  }
                         else if ( options.timeElements[item]  == "duration" ) {   timeInnerElem += durTimeElem;  }
                     }
-                    timeElem = "<div class='mp-timeHolder'>" + timeInnerElem + "</div>";
+                    timeElem = "<div class='timeHolder'>" + timeInnerElem + "</div>";
                     fullPlayerElem  += timeElem; 
                 }
                 //PREPARE CONTROLS inner elements to display [play, stop, forward or backward] in the given order
                 else if (options.elements[elemItem] == "controls" ) {
 
-                    $.inArray("backward", options.controlElements) != '-1'  ? backwardElem   = "<div class='mp-rew'></div>"      : backwardElem  = " " ;
-                    $.inArray("forward", options.controlElements)  != '-1'  ? forwardElem  = "<div class='mp-fwd'></div>"        : forwardElem   = " " ;
-                    $.inArray("stop", options.controlElements) != '-1'      ? stopElem     = "<div class='mp-stop'></div>"       : stopElem      = " " ;
-                    $.inArray("play", options.controlElements) != '-1'      ? playElem     = "<div class='mp-play'></div><div class='mp-pause'></div>" : playElem  = " " ;
+                    $.inArray("backward", options.controlElements) != '-1'  ? backwardElem   = "<div class='rew'></div>"      : backwardElem  = " " ;
+                    $.inArray("forward", options.controlElements)  != '-1'  ? forwardElem  = "<div class='fwd'></div>"        : forwardElem   = " " ;
+                    $.inArray("stop", options.controlElements) != '-1'      ? stopElem     = "<div class='stop'></div>"       : stopElem      = " " ;
+                    $.inArray("play", options.controlElements) != '-1'      ? playElem     = "<div class='play'></div><div class='pause'></div>" : playElem  = " " ;
 
                     for( var item in options.controlElements ) {  
                         if (options.controlElements[item] == "backward" ) {       controlInnerElem  +=  backwardElem ;  }
@@ -102,59 +100,77 @@
                         else if (options.controlElements[item] == "forward" ) {   controlInnerElem +=  forwardElem;  }
                         else if (options.controlElements[item] == "stop" ) {   controlInnerElem +=  stopElem;  }
                     }
-                    controlElem   = "<div class='mp-controls'>" + controlInnerElem + "</div>";
+                    controlElem   = "<div class='controls'>" + controlInnerElem + "</div>";
                     fullPlayerElem  += controlElem; 
                 }
             }
 
-            //ADD THE PREPARED ELEMENT SORTED IN THEIR RIGHT ORDER TO THE PLYAER ELEMENT
-            playerElem = $("<div class='mp-player'>" + fullPlayerElem + "</div>");
-
-            $(playerElem).insertBefore(".mp-playlist");
-
-            var theBar            = playerElem.find('.mp-progressbar'),
-                barPlayed         = playerElem.find('.mp-bar-played' ),
-                barLoaded         = playerElem.find('.mp-bar-loaded' ),
-                timeCurrent       = playerElem.find('.mp-time-current'),
-                timeDuration      = playerElem.find('.mp-time-duration' ),
+            //ADD THE PREPARED ELEMENT SORTED IN THEIR RIGHT ORDER TO THE PLAYER ELEMENT
+            playerElem = $("<div class='player'>" + fullPlayerElem + "</div>");
+            $(playerElem).insertBefore(container.children(".playlist"));
+            playerHolder
+            
+            var playlistHolder    = container.children(".playlist"),
+                playerHolder      = container.children(".player"),
+                theBar            = playerHolder.find('.progressbar'),
+                barPlayed         = playerHolder.find('.bar-played'),
+                barLoaded         = playerHolder.find('.bar-loaded' ),
+                timeCurrent       = playerHolder.find('.time-current'),
+                timeDuration      = playerHolder.find('.time-duration' ),
                 timeSeparator     = options.timeSeparator,
-                volumeButton      = playerElem.find('.mp-volume-btn'),
-                volumeAdjuster    = playerElem.find('.mp-volume-adjust' + ' > div' ),
+                volumeInfo        = playerHolder.find('.volume'),
+                volumeButton      = playerHolder.find('.volume-btn'),
+                volumeAdjuster    = playerHolder.find('.volume-adjust' + ' > div' ),
                 volumeValue       = options.volume / 100,
                 volumeDefault     = 0,
+                trackInfo         = playerHolder.find('.info'),
+                //tracker           = playerHolder.find('.progressbar'),
+                //volume            = playerHolder.find('.volume'),
+                coverInfo         = playerHolder.find('.cover'), 
+                controlsInfo      = playerHolder.find('.controls'),
+                controlPlay       = $(controlsInfo).find('.play'),
+                controlPause      = $(controlsInfo).find('.pause'),
+                controlStop       = $(controlsInfo).find('.stop'),
+                controlFwd        = $(controlsInfo).find('.fwd'),
+                controlRew        = $(controlsInfo).find('.rew'), 
                 cssClass          = 
                 {
-                    playing:        'mp-playing',
-                    mute:           'mp-mute'
+                    playing:        'playing',
+                    mute:           'mute'
                 };
 
             //Volume cannot be set using JavaScript, so the volumechange event will never be fired. 
             //Even if the user changes the volume on their device while mobile Safari is open, this event will not fire
             //source: https://www.ibm.com/developerworks/library/wa-ioshtml5/
             //Hide Volume control on IOS devices. 
-            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) $('.mp-volume').hide();
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) $(volumeInfo).hide();
                                 
             // initialization - first element in playlist
-            initAudio($('.mp-playlist li:first-child') );
+            initAudio( $( playlistHolder.children("li:first-child") ) );
             // set volume  
             song.volume = volumeValue;
 
 
             adjustCurrentTime = function( e )
             {
-                theRealEvent         = isTouch ? e.originalEvent.touches[ 0 ] : e;
-                song.currentTime = Math.round( ( song.duration * ( theRealEvent.pageX - theBar.offset().left ) ) / theBar.width() );
+                theRealEvent        = isTouch ? e.originalEvent.touches[ 0 ] : e;
+                song.currentTime    = Math.round( ( song.duration * ( theRealEvent.pageX - theBar.offset().left ) ) / theBar.width() );
             },
+
             adjustVolume = function( e )
-            {
+            {  
+                volElemClicked  = e.toElement.parentElement;
+                volElemClicked  = $(volElemClicked).parent().parent().parent().parent();
+                console.log(e);
+
                 theRealEvent    = isTouch ? e.originalEvent.touches[ 0 ] : e; 
-                song.volume = Math.abs( ( theRealEvent.pageX - ( volumeAdjuster.offset().left ) ) / volumeAdjuster.width() );
+                song.volume     = Math.abs( ( theRealEvent.pageX - ( volumeAdjuster.offset().left ) ) / volumeAdjuster.width() );
             };
 
             var volumeTestDefault = song.volume, 
                 volumeTestValue   = song.volume = 0.111;
                 if( Math.round( song.volume * 1000 ) / 1000 == volumeTestValue ) song.volume = volumeTestDefault; //alert(song.volume);
-                else playerElem.addClass("novolume");
+                else playerHolder.addClass("novolume");
 
             //set default time Current and duration time
             timeDuration.html( '&hellip;' );
@@ -163,19 +179,22 @@
             //Set Song to be played by player & set song info on the player.
             function initAudio(elem) {
 
-                var url = elem.children("a:first-child").attr("href");
-                var title = elem.text();
-                var cover = elem.attr('data-cover');
-                var artist = elem.attr('data-artist');  
+                var url     = elem.children("a:first-child").attr("href"),
+                    title   = elem.text(),
+                    cover   = elem.attr('data-cover'),
+                    artist  = elem.attr('data-artist');  
 
                 //Set the title of the song  on the player  
-                $('.mp-player .mp-title').text(title);
+                //$('.player .title').text(title);
+                $(trackInfo).children('.title').text(title);
                 //Set the artist name on the player
-                $('.mp-player .mp-artist').text(artist);
+                $(trackInfo).children('.artist').text(artist);
+
                 //Set the cover image for the player 
-                $('.mp-player .mp-cover').css('background-image','url('+ cover +')');;
+                $(coverInfo).css('background-image','url('+ cover +')');
 
                 //song = new Audio('data/' + url);
+
                 song = new Audio(url); 
 
                 //Force load
@@ -208,7 +227,7 @@
                 //        alert('An unknown error occurred.');
                 //        break;
                 //    }
-                //  }, true);
+                //  }, true); 
 
                 //set the song time duration on player
                 song.addEventListener('loadeddata', function()
@@ -221,9 +240,6 @@
                 }, false);
 
              
-
-
-
                 //update bar loader 
                 song.addEventListener('progress', function()
                 {
@@ -238,40 +254,41 @@
                     barPlayed.width( (song.currentTime / song.duration ) * 100 + '%' );
                 });
 
-                song.addEventListener( 'volumechange', function()
+                song.addEventListener('volumechange', function()
                 {
+                   //console.log(volumeAdjuster);
                     volumeAdjuster.find( 'div' ).width( song.volume * 100 + '%' );
-                    if( song.volume > 0 && playerElem.hasClass( cssClass.mute ) ) playerElem.removeClass( cssClass.mute );
-                    if( song.volume <= 0 && !playerElem.hasClass( cssClass.mute ) ) playerElem.addClass( cssClass.mute );
+                    if( song.volume > 0 && playerHolder.hasClass( cssClass.mute ) ) playerHolder.removeClass( cssClass.mute );
+                    if( song.volume <= 0 && !playerHolder.hasClass( cssClass.mute ) ) playerHolder.addClass( cssClass.mute );
                     volumeValue  = song.volume;
                 });
 
-                song.addEventListener( 'ended', function()
+                song.addEventListener('ended', function()
                 {   
                      //Play the loaded song when autoplay is activated
-                      //$('.mp-fwd').click(); 
+                      //$('.fwd').click(); 
                     if (options.autoPlay){ autoPlayNext(); } 
                     else {
                         //Hide playing class
-                        playerElem.removeClass( cssClass.playing );
+                        playerHolder.removeClass( cssClass.playing );
                         //Hide pause Icon and show play
-                        $('.mp-play').removeClass('hidden');
-                        $('.mp-pause').removeClass('visible');
+                        $(controlPlay).removeClass('hidden');
+                        $(controlPause).removeClass('visible');
                     }
 
                 });
 
                 //Toggle Mute icon and reset Volume   
-                volumeButton.on( 'click', function()
+                volumeButton.on('click', function()
                 {
-                    if( playerElem.hasClass( cssClass.mute ) )
+                    if( playerHolder.hasClass( cssClass.mute ) )
                     {
-                        playerElem.removeClass( cssClass.mute );
+                        playerHolder.removeClass( cssClass.mute );
                         song.volume = volumeDefault;
                     }
                     else
                     {
-                        playerElem.addClass( cssClass.mute );
+                        playerHolder.addClass( cssClass.mute );
                         volumeDefault = song.volume;
                         song.volume = 0;
                     }
@@ -304,15 +321,16 @@
                 });
 
                 //Make active the loaded Song playing  
-                $('.mp-playlist li').removeClass('active');
+                $(playlistHolder).children('li').removeClass('active');
                 elem.addClass('active');
+
 
                 //issue Callback
                 options.onLoad();
 
                 //Play the loaded song when autoplay is activated
                 if (options.autoPlay) playAudio();  
-
+  
             }
 
             function playAudio() { 
@@ -321,36 +339,40 @@
                 //tracker.slider("option", "max", song.duration);
 
                 //Add playing class
-                playerElem.addClass( cssClass.playing );
+                playerHolder.addClass(cssClass.playing);
 
                 //Hide pause Icon and show play if they exist 
                 if (  $.inArray("controls", options.elements ) != '-1' && $.inArray("play", options.controlElements ) != '-1'  ) {
-                    $('.mp-play').addClass('hidden');
-                    $('.mp-pause').addClass('visible');
+                    $(controlPlay).addClass('hidden');
+                    $(controlPause).addClass('visible');
                 }
 
                 options.onPlay();
-
             }
+
 
             function stopAudio() {
                 song.pause();
 
+                //Remove playing class
+                playerHolder.removeClass(cssClass.playing);
+
                 //Hide pause Icon and show play if they exist 
                 if ( $.inArray("controls", options.elements ) != '-1' && $.inArray("play", options.controlElements ) != '-1' ) {
-                    $('.mp-play').removeClass('hidden');
-                    $('.mp-pause').removeClass('visible');
+                    $(controlPlay).removeClass('hidden');
+                    $(controlPause).removeClass('visible');
                 }
             }
 
             //Auto Play the next track and loop if lopp is activated
             function autoPlayNext() {
+                
                 stopAudio();
-                var next = $('.mp-playlist li.active').next();
+                var next = $(playlistHolder).children('li.active').next();
 
                 //Looping Activated : play the first item on the playlist if there is no next item with(looping)
                 if (  next.length == 0 && options.loop  ) {
-                    next = $('.mp-playlist li:first-child');
+                    next = $(playlistHolder).children('li:first-child')
                     loadNewSong(next);
                     playAudio();
                 }
@@ -376,16 +398,16 @@
                 timeCurrent.text( secondsToTime( 0 ) );  
             }   
 
-
             // play click
-            $('.mp-play').click(function (e) {
+            $(controlPlay).click(function (e) {
                 e.preventDefault();
 
                 playAudio();
+            
             });
 
             // pause click
-            $('.mp-pause').click(function (e) {
+            $(controlPause).click(function (e) {
                 e.preventDefault();
 
                 stopAudio();
@@ -393,16 +415,16 @@
             });
 
             // forward click
-            $('.mp-fwd').click(function (e) {
+            $(controlFwd).click(function (e) {
                 e.preventDefault();
 
                 stopAudio();
 
-                var next = $('.mp-playlist li.active').next();
+                var next = $(playlistHolder).find('li.active').next();
 
                 //Looping Activated : play the first item on the playlist if there is no next item with(looping)
                 if ( next.length == 0 ) {
-                    next = $('.mp-playlist li:first-child');
+                    next = $(playlistHolder).find('li:first-child');      
                 }
 
                 loadNewSong(next);
@@ -413,35 +435,36 @@
             });
 
             // rewind click
-            $('.mp-rew').click(function (e) {
+            $(controlRew).click(function (e) {
                 e.preventDefault();
 
                 stopAudio();
 
-                var prev = $('.mp-playlist li.active').prev();
+                var prev = $(playlistHolder).find('li.active').prev();
                 //play the last item on the playlist if there is no previous item (looping)
                 if (prev.length == 0 ) {
-                    prev = $('.mp-playlist li:last-child');
+                    prev = $(playlistHolder).find('li:last-child'); 
                 }
+
                 loadNewSong(prev);
                 playAudio();
                 options.onRew();
+
             });
 
             //stop click 
-            $('.mp-stop').click(function (e) {
+            $(controlStop).click(function (e) {
                 e.preventDefault();
 
                 stopAudio();
                 
-                var currentTrack = $('.mp-playlist li.active');
+                var currentTrack = $(playlistHolder).find('li.active'); 
                 loadNewSong(currentTrack);
-
                 options.onStop();
             });
 
             // Play clicked Playlist song. 
-            $('.mp-playlist li').click(function (e) {
+            $(playlistHolder).find('li').click(function (e) {
                 e.preventDefault();
 
                 stopAudio();

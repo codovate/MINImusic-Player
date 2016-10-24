@@ -9,20 +9,27 @@
     <!-- add styles and scripts -->
     <link href="css/styles.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>    
-    <script type="text/javascript" src="js/musicplayer-min.js"></script>
+    <script type="text/javascript" src="js/musicplayer.js"></script>
 </head>
 <body>
-
     <div class="example">
-
-        <ul class="mp-playlist">
+        <div>uhrghgegeughegrhgughruerh</div>
+        <ul class="playlist">
             <li data-cover="http://digital.akauk.com/utils/musicPlayer/data/John-Wesley.jpg" data-artist="John Wesley"><a href="http://digital.akauk.com/utils/musicPlayer/data/Tequila 10 Seconds.mp3">Tequila 10 Seconds</a></li>
             
             <li data-cover="http://digital.akauk.com/utils/musicPlayer/data/john-doe.jpg" data-artist="John Doe"><a href="http://digital.akauk.com/utils/musicPlayer/data/new.mp3">Perfect</a></li>  
             <li data-cover="http://digital.akauk.com/utils/musicPlayer/data/jimi_hendrix.jpg" data-artist="Jimi Hendrix"><a href="http://digital.akauk.com/utils/musicPlayer/data/purple-haze.mp3">Purple Haze</a></li>
         </ul>
 
- <!--     <audio src="data/new.mp3" controls autoplay type="audio/mp3"></audio>  --> 
+    </div>
+
+    <div class="example2">
+
+        <ul class="playlist">
+            <li data-cover="http://digital.akauk.com/utils/musicPlayer/data/John-Wesley.jpg" data-artist="John Wesley"><a href="http://digital.akauk.com/utils/musicPlayer/data/Tequila 10 Seconds.mp3">Tequila 10 Seconds</a></li>
+            <li data-cover="http://digital.akauk.com/utils/musicPlayer/data/jimi_hendrix.jpg" data-artist="Jimi Hendrix"><a href="http://digital.akauk.com/utils/musicPlayer/data/purple-haze.mp3">Purple Haze</a></li>
+        </ul>
+
     </div>
 
      <script>
@@ -40,14 +47,14 @@
             //autoPlay: true,
             //loop: true,
             onLoad: function() {
-                //Add Audio player 
-                // plElem  = "<div class='mp-pl'></div>";
-                // $('.mp-player').append(plElem);
+                //Add Audio player
+                // plElem  = "<div class='pl'></div>";
+                // $('.player').append(plElem);
                 // // show playlist
-                // $('.mp-pl').click(function (e) {
+                // $('.pl').click(function (e) {
                 //     e.preventDefault();
 
-                //     $('.mp-playlist').toggleClass("hidden");
+                //     $('.playlist').toggleClass("hidden");
                 // });
             },
             onPlay: function() {
@@ -77,6 +84,12 @@
 
 
         });
+
+    $(".example2").musicPlayer({
+         volume: 0
+   });
+
+
     </script>
 
    
