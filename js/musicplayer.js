@@ -69,7 +69,31 @@
             curTimeElem       = "",
             durTimeElem       = "",
             timeSeparator     = "",
-            playerElem        = "";
+            playerElem        = "",
+            playlistHolder   = "",
+            playerHolder     = "",
+            song             = "",
+            theBar             ="",
+            barPlayed      ="",
+            barLoaded      ="",
+            timeCurrent    ="",
+            timeDuration   ="",
+            timeSeparator  ="",
+            volumeInfo     ="",
+            volumeButton   ="",
+            volumeAdjuster ="",
+            volumeValue    ="",
+            volumeDefault  ="",
+            trackInfo          ="",  
+            coverInfo      ="",
+            controlsInfo   ="",
+            controlPlay    ="",
+            controlPause   ="",
+            controlStop    ="",
+            controlFwd     ="",
+            controlRew     ="",
+            cssClass       ="";
+
             //container         = this, //users selector
             //uniqueID          = generateID();
 
@@ -170,9 +194,9 @@
                 $(playerElem).insertBefore($(this.element).children(".playlist"));
 
 
-                var playlistHolder    = $(this.element).children(".playlist"),
+                    playlistHolder    = $(this.element).children(".playlist"),
                     playerHolder      = $(this.element).children(".player"),
-                   song              = "",
+                    song              = "",
                     theBar            = playerHolder.find('.progressbar'),
                     barPlayed         = playerHolder.find('.bar-played'),
                     barLoaded         = playerHolder.find('.bar-loaded' ),
@@ -211,7 +235,7 @@
                 this.initAudio( $(playlistHolder.children("li:first-child") ) );
 
                 // set volume  
-                //song.volume = volumeValue;
+               // song.volume = volumeValue;
 
                 //set default time Current and duration time
                 timeDuration.html( '&hellip;' );
@@ -251,7 +275,8 @@
                 var url     = elem.children("a:first-child").attr("href"),
                     title   = elem.text(),
                     cover   = elem.attr('data-cover'),
-                    artist  = elem.attr('data-artist');
+                    artist  = elem.attr('data-artist'),
+                    thisCard = this;
 
 
                 //Set the title of the song  on the player  
@@ -271,11 +296,12 @@
                 //set the song time duration on player
                 this.song.addEventListener('loadeddata', function()
                 {
-                    var timesec = secondsToTime(this.duration);
-                    //timeDuration.html( timeSeparator  + secondsToTime(song.duration) );
-                    $(this.timeDuration).html( );
-                    volumeAdjuster.find( 'div' ).width( song.volume * 100 + '%' );
-                    volumeDefault = song.volume;
+                    console.log(thisCard);
+                    //alert(thisCard + thisCard.secondsToTime(this.duration));
+                    $(timeDuration).html(thisCard.settings.timeSeparator  + thisCard.secondsToTime(this.duration) );
+                    //$(this.timeDuration).html( );
+                    $(thisCard.volumeAdjuster).find( 'div' ).width( this.volume * 100 + '%' );
+                    thisCard.volumeDefault = this.volume;
 
                 }, false);
 
@@ -283,14 +309,14 @@
                 //update bar loader 
                 this.song.addEventListener('progress', function()
                 {
-                    barLoaded.width( ( song.buffered.end( 0 ) / song.duration ) * 100 + '%' );
+                    $(this.barLoaded).width( ( this.buffered.end( 0 ) / this.duration ) * 100 + '%' );
                 });
 
                 //timeupdate event listener (timeupdate used together with the current Time Property to return
                 // the current position of the audio playback in seconds)   
                 this.song.addEventListener('timeupdate',function ()
                 {
-                    timeCurrent.text( secondsToTime(song.currentTime ) ); 
+                    $(this.timeCurrent).text( secondsToTime(song.currentTime ) ); 
                     barPlayed.width( (song.currentTime / song.duration ) * 100 + '%' );
                 });
 
