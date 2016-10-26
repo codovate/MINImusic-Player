@@ -23,7 +23,7 @@
         </ul>
 
     </div>
-<!-- 
+
     <div class="example2">
 
         <ul class="playlist">
@@ -32,13 +32,13 @@
             
         </ul>
 
-    </div> -->
+    </div>
 
      <script>
    // controls: ['play', 'rewind' , 'forward', 'stop', 'volume' , 'playlist-toggle', 'progress' ]
    //playerDisplays: ['song-title', 'artist', 'cover', 'time-durtion' ]
         $(".example").musicPlayer({
-            //elements: ['artwork', 'information', 'controls', 'progress', 'time', 'volume'], // ==> This will display in  the order it is inserted
+            elements: ['artwork', 'information', 'controls', 'progress', 'time', 'volume'], // ==> This will display in  the order it is inserted
             //elements: [ 'controls' , 'information', 'artwork', 'progress', 'time', 'volume' ],
             //controlElements: ['backward', 'play', 'forward', 'stop'],
             //timeElements: ['current', 'duration'],
@@ -48,50 +48,55 @@
             //volume: 10,
             //autoPlay: true,
             //loop: true,
-            // onLoad: function() {
-            //     //Add Audio player
-            //     // plElem  = "<div class='pl'></div>";
-            //     // $('.player').append(plElem);
-            //     // // show playlist
-            //     // $('.pl').click(function (e) {
-            //     //     e.preventDefault();
-
-            //     //     $('.playlist').toggleClass("hidden");
-            //     // });
-            // },
-            // onPlay: function() {
-            //    //$('body').css('background', 'black');
-            // },
-            // onPause: function() {
-            //     //$('body').css('background', 'black');
-            // },
-            // onStop: function() {
-            //     //$('body').css('background', 'black');
-            // },
-            // onFwd: function() {
-            //     //$('body').css('background', 'black');
-            // },
-            // onRew: function() {
-            //     //$('body').css('background', 'black');
-            // },
-            // volumeChanged: function() {
-            //    // $('body').css('background', 'black');
-            // },
-            // progressChanged: function() {
-            //    //$('body').css('background', 'black');
-            // },
-            // trackClicked: function() {
-            //    //$('body').css('background', 'black');
-            // }
+         
+            onPlay: function() {
+               $('body').css('background', 'black');
+            },
+            onPause: function() {
+                $('body').css('background', 'green');
+            },
+            onStop: function() {
+                $('body').css('background', '#141942');
+            },
+            onFwd: function() {
+                $('body').css('background', 'white');
+            },
+            onRew: function() {
+                $('body').css('background', 'blue');
+            },
+            volumeChanged: function() {
+                $('body').css('background', 'red');
+            },
+            progressChanged: function() {
+               $('body').css('background', 'orange');
+            },
+            trackClicked: function() {
+               $('body').css('background', 'brown');
+            },
+            onMute: function() {
+               $('body').css('background', 'grey');
+            },
 
 
         });
 
-   //  $(".example2").musicPlayer({
-   //       volume: 10,
-   //       elements: ['artwork', 'controls', 'progress', 'time', 'volume'],
+    $(".example2").musicPlayer({
+         //volume: 10,
+         //elements: ['artwork', 'controls', 'progress', 'time', 'volume'],
+        //playerAbovePlaylist: false,
+        onLoad: function() {
+            //Add Audio player
+            plElem  = "<div class='pl'></div>";
+            $('.example2').find('.player').append(plElem);
+            // show playlist
+            $('.pl').click(function (e) {
+                e.preventDefault();
 
-   // });
+                $('.example2').find('.playlist').toggleClass("hidden");
+            });
+        },
+
+   });
 
 
     </script>

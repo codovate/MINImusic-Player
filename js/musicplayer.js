@@ -1,33 +1,18 @@
 /*
- *  jquery-boilerplate - v4.0.0
- *  A jump-start for jQuery plugins development.
- *  http://jqueryboilerplate.com
- *
- *  Made by Zeno Rocha
+ *  Author Sam Johnson 
  *  Under MIT License
  */
-// the semi-colon before function invocation is a safety net against concatenated
-// scripts and/or other plugins which may not be closed properly.
 ;( function( $, window, document, undefined ) {
 
     "use strict";
-
-        // undefined is used here as the undefined global variable in ECMAScript 3 is
-        // mutable (ie. it can be changed by someone else). undefined isn't really being
-        // passed in so we can ensure the value of it is truly undefined. In ES5, undefined
-        // can no longer be modified.
-
-        // window and document are passed through as local variable rather than global
-        // as this (slightly) quickens the resolution process and can be more efficiently
-        // minified (especially when both are regularly referenced in your plugin).
-
         // Create the defaults once
         var pluginName = "musicPlayer",
             defaults = {
                 autoPlay: false , 
                 volume: 80, 
                 loop: false, 
-                timeSeparator: ' / ',  
+                timeSeparator: ' / ',
+                playerAbovePlaylist: true,  
                 infoElements: ['title' , 'artist'] , 
                 elements: ['artwork', 'information', 'controls', 'progress', 'time', 'volume'],  
                 timeElements: ['current', 'duration'],  
@@ -40,7 +25,8 @@
                 onRew: function() {}, 
                 volumeChanged: function() {}, 
                 progressChanged: function() {} , 
-                trackClicked: function() {}
+                trackClicked: function() {},
+                onMute: function() {}
             };
 
         //Setup Touch Events
@@ -48,81 +34,40 @@
             eStart            = isTouch ? 'touchstart'  : 'mousedown',
             eMove             = isTouch ? 'touchmove'   : 'mousemove',
             eEnd              = isTouch ? 'touchend'    : 'mouseup',
-            eCancel           = isTouch ? 'touchcancel' : 'mouseup',
-           // song              = "",
-            controlInnerElem  = "",
-            timeInnerElem     = "",
-            infoElem          = "",  
-            infoInnerElem     = "",
-            fullPlayerElem    = "", 
-            volumeElem        = "",
-            progressElem      = "",
-            artworkElem       = "",
-            timeElem          = "",
-            controlElem       = "", 
-            titleElem         = "", 
-            artistElem        = "",
-            backwardElem      = "",
-            forwardElem       = "",
-            stopElem          = "",
-            playElem          = "",
-            curTimeElem       = "",
-            durTimeElem       = "",
-            timeSeparator     = "",
-            playerElem        = "",
-            playlistHolder   = "",
-            playerHolder     = "",
-            song             = "",
-            theBar             ="",
-            barPlayed      ="",
-            barLoaded      ="",
-            timeCurrent    ="",
-            timeDuration   ="",
-            timeSeparator  ="",
-            volumeInfo     ="",
-            volumeButton   ="",
-            volumeAdjuster ="",
-            volumeValue    ="",
-            volumeDefault  ="",
-            trackInfo          ="",  
-            coverInfo      ="",
-            controlsInfo   ="",
-            controlPlay    ="",
-            controlPause   ="",
-            controlStop    ="",
-            controlFwd     ="",
-            controlRew     ="",
-            cssClass       ="";
+            eCancel           = isTouch ? 'touchcancel' : 'mouseup';
 
-            //container         = this, //users selector
-            //uniqueID          = generateID();
-
-        // The actual plugin constructor
         function Plugin ( element, options ) {
             this.element = element;
-
-            // jQuery has an extend method which merges the contents of two or
-            // more objects, storing the result in the first object. The first object
-            // is generally empty as we don't want to alter the default options for
-            // future instances of the plugin
             this.settings = $.extend( {}, defaults, options );
             this._defaults = defaults;
             this._name = pluginName;
             this.init();
         }
 
-        // Avoid Plugin.prototype conflicts
         $.extend( Plugin.prototype, {
             init: function() {
-                console.log(this.element);
+                var controlInnerElem  = "",
+                    timeInnerElem     = "",
+                    infoElem          = "",  
+                    infoInnerElem     = "",
+                    fullPlayerElem    = "", 
+                    volumeElem        = "",
+                    progressElem      = "",
+                    artworkElem       = "",
+                    timeElem          = "",
+                    controlElem       = "", 
+                    titleElem         = "", 
+                    artistElem        = "",
+                    backwardElem      = "",
+                    forwardElem       = "",
+                    stopElem          = "",
+                    playElem          = "",
+                    curTimeElem       = "",
+                    durTimeElem       = "",
+                    timeSeparator     = "",
+                    playerElem        = "",
+                    playerThis        = this;
 
-                // Place initialization logic here
-                // You already have access to the DOM element and
-                // the options via the instance, e.g. this.element
-                // and this.settings
-                // you can add more functions like the one below and
-                // call them like the example bellow
-                //this.yourOtherFunction( "jQuery Boilerplate" );
                 for( var elemItem in this.settings.elements ) 
                 { 
                     
@@ -174,9 +119,9 @@
                     else if (this.settings.elements[elemItem] == "controls" ) {
 
                         $.inArray("backward", this.settings.controlElements) != '-1'  ? backwardElem   = "<div class='rew'></div>"      : backwardElem  = " " ;
-                        $.inArray("forward", this.settings.controlElements)  != '-1'  ? forwardElem  = "<div class='fwd'></div>"        : forwardElem   = " " ;
-                        $.inArray("stop", this.settings.controlElements) != '-1'      ? stopElem     = "<div class='stop'></div>"       : stopElem      = " " ;
-                        $.inArray("play", this.settings.controlElements) != '-1'      ? playElem     = "<div class='play'></div><div class='pause'></div>" : playElem  = " " ;
+                        $.inArray("forward", this.settings.controlElements)  != '-1'  ? forwardElem    = "<div class='fwd'></div>"        : forwardElem   = " " ;
+                        $.inArray("stop", this.settings.controlElements) != '-1'      ? stopElem       = "<div class='stop'></div>"       : stopElem      = " " ;
+                        $.inArray("play", this.settings.controlElements) != '-1'      ? playElem       = "<div class='play'></div><div class='pause'></div>" : playElem  = " " ;
 
                         for( var item in this.settings.controlElements ) {  
                             if (this.settings.controlElements[item] == "backward" ) {       controlInnerElem  +=  backwardElem ;  }
@@ -188,42 +133,46 @@
                         fullPlayerElem  += controlElem; 
                     }
                 }
+                
 
                 //ADD THE PREPARED ELEMENT SORTED IN THEIR RIGHT ORDER TO THE PLAYER ELEMENT
                 playerElem = $("<div class='player' >" + fullPlayerElem + "</div>");
-                $(playerElem).insertBefore($(this.element).children(".playlist"));
+                //console.log(this.element);
+                if(this.settings.playerAbovePlaylist) {
+                    $(playerElem).insertBefore($(this.element).find(".playlist"));
+                }else {
+                    $(playerElem).insertAfter($(this.element).find(".playlist"));
+                }
 
-
-                    playlistHolder    = $(this.element).children(".playlist"),
-                    playerHolder      = $(this.element).children(".player"),
-                    song              = "",
-                    theBar            = playerHolder.find('.progressbar'),
-                    barPlayed         = playerHolder.find('.bar-played'),
-                    barLoaded         = playerHolder.find('.bar-loaded' ),
-                    timeCurrent       = playerHolder.find('.time-current'),
-                    timeDuration      = playerHolder.find('.time-duration' ),
-                    timeSeparator     = this.settings.timeSeparator,
-                    volumeInfo        = playerHolder.find('.volume'),
-                    volumeButton      = playerHolder.find('.volume-btn'),
-                    volumeAdjuster    = playerHolder.find('.volume-adjust' + ' > div' ),
-                    volumeValue       = this.settings.volume / 100,
-                    volumeDefault     = 0,
-                    trackInfo         = playerHolder.find('.info'),
-                    //tracker           = playerHolder.find('.progressbar'),
-                    //volume            = playerHolder.find('.volume'),
-                    coverInfo         = playerHolder.find('.cover'), 
-                    controlsInfo      = playerHolder.find('.controls'),
-                    controlPlay       = $(controlsInfo).find('.play'),
-                    controlPause      = $(controlsInfo).find('.pause'),
-                    controlStop       = $(controlsInfo).find('.stop'),
-                    controlFwd        = $(controlsInfo).find('.fwd'),
-                    controlRew        = $(controlsInfo).find('.rew'), 
-                    cssClass          = 
-                    {
-                        playing:        'playing',
-                        mute:           'mute'
-                    };
-
+                        this.playlistHolder    = $(this.element).children(".playlist"),
+                        this.playerHolder      = $(this.element).children(".player");
+                        this.song              = "";
+                        this.theBar            = this.playerHolder.find('.progressbar');
+                        this.barPlayed         = this.playerHolder.find('.bar-played');
+                        this.barLoaded         = this.playerHolder.find('.bar-loaded' );
+                        this.timeCurrent       = this.playerHolder.find('.time-current');
+                        this.timeDuration      = this.playerHolder.find('.time-duration' );
+                        this.timeSeparator     = this.settings.timeSeparator;
+                        this.volumeInfo        = this.playerHolder.find('.volume');
+                        this.volumeButton      = this.playerHolder.find('.volume-btn');
+                        this.volumeAdjuster    = this.playerHolder.find('.volume-adjust' + ' > div' );
+                        this.volumeValue       = this.settings.volume / 100;
+                        this.volumeDefault     = 0;
+                        this.trackInfo         = this.playerHolder.find('.info');
+                        //tracker           = playerHolder.find('.progressbar'),
+                        //volume            = playerHolder.find('.volume'),
+                        this.coverInfo         = this.playerHolder.find('.cover'); 
+                        this.controlsInfo      = this.playerHolder.find('.controls');
+                        this.controlPlay       = $(this.controlsInfo).find('.play');
+                        this.controlPause      = $(this.controlsInfo).find('.pause');
+                        this.controlStop       = $(this.controlsInfo).find('.stop');
+                        this.controlFwd        = $(this.controlsInfo).find('.fwd');
+                        this.controlRew        = $(this.controlsInfo).find('.rew'); 
+                        this.cssClass          = 
+                        {
+                            playing:        'playing',
+                            mute:           'mute'
+                        };
 
                 //Volume cannot be set using JavaScript, so the volumechange event will never be fired. 
                 //Even if the user changes the volume on their device while mobile Safari is open, this event will not fire
@@ -232,14 +181,97 @@
                 if (/iPad|iPhone|iPod/.test(navigator.userAgent)) $(volumeInfo).hide();
 
                 // initialization - first element in playlist
-                this.initAudio( $(playlistHolder.children("li:first-child") ) );
+                this.initAudio( $(this.playlistHolder.children("li:first-child") ) );
 
                 // set volume  
-               // song.volume = volumeValue;
+                this.song.volume = this.volumeValue;
 
                 //set default time Current and duration time
-                timeDuration.html( '&hellip;' );
-                timeCurrent.text( this.secondsToTime( 0 ) );  
+                this.timeDuration.html( '&hellip;' );
+                this.timeCurrent.text( this.secondsToTime( 0 ) );  
+
+
+            // play click
+            $(this.controlPlay).click(function (e) {
+                e.preventDefault();
+
+                playerThis.playAudio();
+            
+            });
+
+            // pause click
+            $(this.controlPause).click(function (e) {
+                e.preventDefault();
+
+                playerThis.stopAudio();
+
+                //issue pause callback
+                playerThis.settings.onPause();
+            });
+
+            // forward click
+            $(this.controlFwd).click(function (e) {
+                e.preventDefault();
+
+                playerThis.stopAudio();
+
+                var next = $(playerThis.playlistHolder).find('li.active').next();
+
+                //Looping Activated : play the first item on the playlist if there is no next item with(looping)
+                if ( next.length == 0 ) {
+                    next = $(playerThis.playlistHolder).find('li:first-child');      
+                }
+
+                playerThis.loadNewSong(next);
+                playerThis.playAudio();
+
+                //issue forward callback
+                playerThis.settings.onFwd();
+
+            });
+
+            // rewind click
+            $(this.controlRew).click(function (e) {
+                e.preventDefault();
+
+                playerThis.stopAudio();
+
+                var prev = $(playerThis.playlistHolder).find('li.active').prev();
+                //play the last item on the playlist if there is no previous item (looping)
+                if (prev.length == 0 ) {
+                    prev = $(playerThis.playlistHolder).find('li:last-child'); 
+                }
+
+                playerThis.loadNewSong(prev);
+                playerThis.playAudio();
+
+                //issue backward callback
+                playerThis.settings.onRew();
+
+            });
+
+            //stop click 
+            $(this.controlStop).click(function (e) {
+                e.preventDefault();
+
+                playerThis.stopAudio();
+                playerThis.song.currentTime = 0;
+                
+                //issue stop callback
+                playerThis.settings.onStop();
+            });
+
+            // Play clicked Playlist song. 
+            $(this.playlistHolder).find('li').click(function (e) {
+                e.preventDefault();
+
+                playerThis.stopAudio();
+                playerThis.loadNewSong($(this));
+                playerThis.playAudio();
+
+                //issue track clicked callback
+                playerThis.settings.trackClicked();
+            })
 
 
             },
@@ -252,42 +284,37 @@
 
                 return ( hours == 0 ? '' : hours > 0 && hours.toString().length < 2 ? '0'+hours+':' : hours+':' ) + ( minutes.toString().length < 2 ? '0'+minutes : minutes ) + ':' + ( seconds.toString().length < 2 ? '0'+seconds : seconds );
             },
-
-            adjustCurrentTime: function( e )
-            {
-                theRealEvent        = isTouch ? e.originalEvent.touches[ 0 ] : e;
-                song.currentTime    = Math.round( ( song.duration * ( theRealEvent.pageX - theBar.offset().left ) ) / theBar.width() );
-            },
-
             adjustVolume: function( e )
             {  
-               // volElemClicked  = e.toElement.parentElement;
-               // volElemClicked  = $(volElemClicked).parent().parent().parent().parent();
-               // console.log(e);
+                // volElemClicked  = e.toElement.parentElement;
+                // volElemClicked  = $(volElemClicked).parent().parent().parent().parent();
+                // console.log(e);
+                var theRealEvent     = isTouch ? e.originalEvent.touches[ 0 ] : e; 
+                this.song.volume     = Math.abs( ( theRealEvent.pageX - ( this.volumeAdjuster.offset().left ) ) / this.volumeAdjuster.width() );
 
-                theRealEvent    = isTouch ? e.originalEvent.touches[ 0 ] : e; 
-                song.volume     = Math.abs( ( theRealEvent.pageX - ( volumeAdjuster.offset().left ) ) / volumeAdjuster.width() );
+            },
+            adjustCurrentTime: function( e )
+            {
+                var theRealEvent        = isTouch ? e.originalEvent.touches[ 0 ] : e;
+                this.song.currentTime    = Math.round( ( this.song.duration * ( theRealEvent.pageX - this.theBar.offset().left ) ) / this.theBar.width() );
             },
 
             initAudio: function(elem) 
             {
-
                 var url     = elem.children("a:first-child").attr("href"),
                     title   = elem.text(),
                     cover   = elem.attr('data-cover'),
                     artist  = elem.attr('data-artist'),
-                    thisCard = this;
-
+                    playerInstance = this;
 
                 //Set the title of the song  on the player  
-                //$('.player .title').text(title);
                 $(this.trackInfo).children('.title').text(title);
                 //Set the artist name on the player
                 $(this.trackInfo).children('.artist').text(artist);
 
                 //Set the cover image for the player 
                 $(this.coverInfo).css('background-image','url('+ cover +')');
-
+                 
                 this.song = new Audio(url); 
 
                 //Force load
@@ -296,12 +323,9 @@
                 //set the song time duration on player
                 this.song.addEventListener('loadeddata', function()
                 {
-                    console.log(thisCard);
-                    //alert(thisCard + thisCard.secondsToTime(this.duration));
-                    $(timeDuration).html(thisCard.settings.timeSeparator  + thisCard.secondsToTime(this.duration) );
-                    //$(this.timeDuration).html( );
-                    $(thisCard.volumeAdjuster).find( 'div' ).width( this.volume * 100 + '%' );
-                    thisCard.volumeDefault = this.volume;
+                    $(playerInstance.timeDuration).html(playerInstance.secondsToTime(this.duration) );
+                    $(playerInstance.volumeAdjuster).find( 'div' ).width( this.volume * 100 + '%' );
+                    playerInstance.volumeDefault = this.volume;
 
                 }, false);
 
@@ -309,37 +333,39 @@
                 //update bar loader 
                 this.song.addEventListener('progress', function()
                 {
-                    $(this.barLoaded).width( ( this.buffered.end( 0 ) / this.duration ) * 100 + '%' );
+                    $(playerInstance.barLoaded).width( ( this.buffered.end( 0 ) / this.duration ) * 100 + '%' );
                 });
 
                 //timeupdate event listener (timeupdate used together with the current Time Property to return
                 // the current position of the audio playback in seconds)   
                 this.song.addEventListener('timeupdate',function ()
                 {
-                    $(this.timeCurrent).text( secondsToTime(song.currentTime ) ); 
-                    barPlayed.width( (song.currentTime / song.duration ) * 100 + '%' );
+                    $(playerInstance.timeCurrent).text( playerInstance.secondsToTime(this.currentTime ) ); 
+                    $(playerInstance.barPlayed).width( (this.currentTime / this.duration ) * 100 + '%' );
+
                 });
 
                 this.song.addEventListener('volumechange', function()
                 {
-                   //console.log(volumeAdjuster);
-                    volumeAdjuster.find( 'div' ).width( song.volume * 100 + '%' );
-                    if( song.volume > 0 && playerHolder.hasClass( cssClass.mute ) ) playerHolder.removeClass( cssClass.mute );
-                    if( song.volume <= 0 && !playerHolder.hasClass( cssClass.mute ) ) playerHolder.addClass( cssClass.mute );
-                    volumeValue  = song.volume;
+                    if(Number(Math.round(this.volume * 100+'e'+1)+'e-'+1) <= 0.4 ){ this.volume = 0; }
+                    $(playerInstance.volumeAdjuster).find( 'div' ).width( this.volume * 100 + '%' );
+                    if( this.volume > 0 && playerInstance.playerHolder.hasClass( playerInstance.cssClass.mute ) ) playerInstance.playerHolder.removeClass( playerInstance.cssClass.mute );
+                    if( this.volume <= 0 && !playerInstance.playerHolder.hasClass( playerInstance.cssClass.mute ) ) playerInstance.playerHolder.addClass( playerInstance.cssClass.mute );
+
+                    playerInstance.volumeValue  = this.volume;
                 });
 
                 this.song.addEventListener('ended', function()
                 {   
                      //Play the loaded song when autoplay is activated
                       //$('.fwd').click(); 
-                    if (this.settings.autoPlay){ autoPlayNext(); } 
+                    if (playerInstance.settings.autoPlay){ playerInstance.autoPlayNext(); } 
                     else {
                         //Hide playing class
-                        playerHolder.removeClass( cssClass.playing );
+                        playerInstance.playerHolder.removeClass( playerInstance.cssClass.playing );
                         //Hide pause Icon and show play
-                        $(controlPlay).removeClass('hidden');
-                        $(controlPause).removeClass('visible');
+                        $(playerInstance.controlPlay).removeClass('hidden');
+                        $(playerInstance.controlPause).removeClass('visible');
                     }
 
                 });
@@ -347,43 +373,51 @@
                 //Toggle Mute icon and reset Volume   
                 $(this.volumeButton).on('click', function()
                 {
-                    if( playerHolder.hasClass( cssClass.mute ) )
+
+                    if( $(playerInstance.playerHolder).hasClass( playerInstance.cssClass.mute ) )
                     {
-                        playerHolder.removeClass( cssClass.mute );
-                        song.volume = volumeDefault;
+                        $(playerInstance.playerHolder).removeClass( playerInstance.cssClass.mute );
+                        playerInstance.song.volume = playerInstance.volumeDefault;
                     }
                     else
                     {
-                        playerHolder.addClass( cssClass.mute );
-                        volumeDefault = song.volume;
-                        song.volume = 0;
+                        $(playerInstance.playerHolder).addClass( playerInstance.cssClass.mute );
+                        playerInstance.volumeDefault = playerInstance.song.volume;
+                        playerInstance.song.volume = 0;
+                        //issue callback to track mute action.
+                        playerInstance.settings.onMute();
+                        
                     }
+
                     return false;
                 });
 
                 //when volume bar is clicked
                 $(this.volumeAdjuster).on( eStart, function( e )
                 {
-                    adjustVolume( e );
-                    volumeAdjuster.on( eMove, function( e ) { adjustVolume( e ); } );
+                    playerInstance.adjustVolume( e );
+                    playerInstance.volumeAdjuster.on( eMove, function( e ) { playerInstance.adjustVolume( e ); } );
+                    //issue callback
+                    playerInstance.settings.volumeChanged();
+
                 })
                 .on( eCancel, function()
                 {
-                    volumeAdjuster.unbind( eMove );
+                    playerInstance.volumeAdjuster.unbind( eMove );
                     
-                    options.volumeChanged();
                 });
 
                 //when trackbar is click 
                 $(this.theBar).on( eStart, function( e )
                 {
-                    adjustCurrentTime( e );
-                    theBar.on( eMove, function( e ) { adjustCurrentTime( e ); } );
+                    playerInstance.adjustCurrentTime( e );
+                    playerInstance.theBar.on( eMove, function( e ) { playerInstance.adjustCurrentTime( e ); } );
                 })
                 .on( eCancel, function()
                 {
-                    theBar.unbind( eMove );
-                    options.progressChanged();
+                    playerInstance.theBar.unbind( eMove );
+                    //issue callback
+                    playerInstance.settings.progressChanged();
                 });
 
                 //Make active the loaded Song playing  
@@ -395,34 +429,74 @@
                 this.settings.onLoad();
 
                 //Play the loaded song when autoplay is activated
-                if (this.settings.autoPlay) playAudio();  
+                if (this.settings.autoPlay) this.playAudio();  
   
             },
             playAudio: function() 
             { 
-                song.play();
+                this.song.play();
 
                 //Add playing class
-                playerHolder.addClass(cssClass.playing);
+                this.playerHolder.addClass(this.cssClass.playing);
 
                 //Hide pause Icon and show play if they exist 
                 if ( $.inArray("controls", this.settings.elements ) != '-1' && $.inArray("play", this.settings.controlElements ) != '-1'  ) {
-                    $(controlPlay).addClass('hidden');
-                    $(controlPause).addClass('visible');
+                    $(this.controlPlay).addClass('hidden');
+                    $(this.controlPause).addClass('visible');
                 }
 
                 this.settings.onPlay();
+            },
+
+            stopAudio: function() 
+            {
+                this.song.pause();
+                //Remove playing class
+                this.playerHolder.removeClass(this.cssClass.playing);
+
+                //Hide pause Icon and show play if they exist 
+                if ( $.inArray("controls", this.settings.elements ) != '-1' && $.inArray("play", this.settings.controlElements ) != '-1' ) {
+                    $(this.controlPlay).removeClass('hidden');
+                    $(this.controlPause).removeClass('visible');
+                }
+                
+            },
+            // Auto Play the next track and loop if lopp is activated
+            autoPlayNext: function() 
+            {
+                
+                this.stopAudio();
+                var next = $(this.playlistHolder).children('li.active').next();
+
+                //Looping Activated : play the first item on the playlist if there is no next item with(looping)
+                if (  next.length == 0 && this.settings.loop  ) {
+                    next = $(this.playlistHolder).children('li:first-child')
+                    this.loadNewSong(next);
+                    this.playAudio();
+                }
+                else if ( !next.length == 0  ) {
+                    this.loadNewSong(next);
+                    this.playAudio();
+                }
+            },
+            //initiate the give song maintaining current settings 
+            loadNewSong: function(elem) 
+            {
+                //save current volume  level
+                this.volumeValue = this.song.volume;
+                //set up the next song to be played
+                this.initAudio(elem);
+                //set song volume to the previous track's volume to ensure consistency
+                this.song.volume = this.volumeValue;
+                this.volumeAdjuster.find( 'div' ).width( this.volumeValue * 100 + '%' );
+                //reset progress & loaded bar indicator to begin
+                this.barPlayed.width(0);
+                this.barLoaded.width(0);
             }
 
-            // yourOtherFunction: function( text ) {
-            //     // some logic
-            //     $( this.element ).text( text );
-            // }
 
         });
 
-        // A really lightweight plugin wrapper around the constructor,
-        // preventing against multiple instantiations
         $.fn[ pluginName ] = function( options ) {
             return this.each( function() {
                 if ( !$.data( this, "plugin_" + pluginName ) ) {
