@@ -24,7 +24,7 @@
                 onFwd: function() {}, 
                 onRew: function() {}, 
                 volumeChanged: function() {}, 
-                progressChanged: function() {} , 
+                seeked: function() {} , 
                 trackClicked: function() {},
                 onMute: function() {}
             };
@@ -417,7 +417,7 @@
                 {
                     playerInstance.theBar.unbind( eMove );
                     //issue callback
-                    playerInstance.settings.progressChanged();
+                    playerInstance.settings.seeked();
                 });
 
                 //Make active the loaded Song playing  

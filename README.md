@@ -43,16 +43,39 @@ http://digital.akauk.com/utils/musicPlayer
 
 # Playback Events
 
-MINImusic-Player provides some useful events that you can subscribe to when implementing your shiny audio player.
+MINImusic-Player provides some useful events that you can subscribe to when implementing your music player.
+
+``onPlay``
+  fires when the Music starts to play.
+
+``onPause``
+  fires when the Music is paused.
+
+``onStop``
+  fires when the Music is stopped.
+
+``onFwd``
+  fires when the Music has been Forwarded by the user.
+
+``onRew``
+  fires when the Music has been Rewind by the user.
+
+``volumeChanged``
+  fires when the Music volume is altered by the user.
+
+``seeked``
+  fires when the Music has been seeked by the user.
+
+``trackClicked``
+  fires when a playlist track is clicked by the user.
+
+``onMute``
+  fires when the Music volume is muted by the user.
 
 
+# Credits
 
-* Playlist support;
-* Ability to Customise the Controllers to display & the order ;
-* Callbacks for almost every single function;
-* Autoplay and loop support
-* Automatically detects when you insert/remove the headset;
-* Supports Multiple Instance on the Same Page. 
+The included MP3 and Ogg files are Creative Commons licensed tracks from [Bensound.com](http://www.bensound.com/)
 
 
 ## License

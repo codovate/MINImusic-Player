@@ -38,8 +38,6 @@
     </div>
 
      <script>
-   // controls: ['play', 'rewind' , 'forward', 'stop', 'volume' , 'playlist-toggle', 'progress' ]
-   //playerDisplays: ['song-title', 'artist', 'cover', 'time-durtion' ]
         $(".example").musicPlayer({
             elements: ['artwork', 'information', 'controls', 'progress', 'time', 'volume'], // ==> This will display in  the order it is inserted
             //elements: [ 'controls' , 'information', 'artwork', 'progress', 'time', 'volume' ],
@@ -70,7 +68,7 @@
             volumeChanged: function() {
                 $('body').css('background', 'red');
             },
-            progressChanged: function() {
+            seeked: function() {
                $('body').css('background', 'orange');
             },
             trackClicked: function() {
