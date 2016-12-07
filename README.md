@@ -5,10 +5,9 @@ Free and Open-Source Jquery music player Plugin.
 The following features are available free of charge :
 
 * Playlist support;
-* Ability to Customise the Controllers to display & the order ;
+* Ability to Customise the Controllers - to show/hide & reorder ;
 * Callbacks for almost every single function;
 * Autoplay and loop support
-* Automatically detects when you insert/remove the headset;
 * Supports Multiple Instance on the Same Page. 
 
 ## Screenshots
@@ -71,6 +70,15 @@ MINImusic-Player provides some useful events that you can subscribe to when impl
 
 ``onMute``
   fires when the Music volume is muted by the user.
+
+### Example Code:
+
+``$(".example").musicPlayer({
+    elements: ['artwork', 'information', 'controls', 'progress', 'time', 'volume'],
+    onPlay: function() {
+       $('body').css('background', 'black');
+    }
+ });``
 
 
 # Credits
