@@ -1,9 +1,9 @@
 {
-   "name" : "npm-minimusic-pkg",
-   "version" : "1.0.0" ,
-   "description" : "Another Jquery MP3 Music Player",
-   "keywords"  : [
-   	"Music Player, jquery music player , mp3 player, music player js, Minimusic, minimusic , Mini music, Mini Music Player, Mp3 music Player, Minimusic Player "
-    ],
-    "author" : "Sam Johnson <samasonj@yahoo.com> "
+  "name": "npm-minimusic-pkg",
+  "version": "1.0.1",
+  "description": "Another Jquery MP3 Music Player",
+  "keywords": [
+    "Music Player, jquery music player , mp3 player, music player js, Minimusic, minimusic , Mini music, Mini Music Player, Mp3 music Player, Minimusic Player "
+  ],
+  "author": "Sam Johnson <samasonj@yahoo.com> "
 }
