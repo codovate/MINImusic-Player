@@ -12,7 +12,7 @@ The following features are available free of charge :
 
 ## Screenshots
 
-![default musicplayer](screenshot.jpg)
+![default musicplayer](http://digital.akauk.com/utils/musicPlayer/screenshot.jpg)
 
 ## Demo
 
