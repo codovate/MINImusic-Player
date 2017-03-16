@@ -217,11 +217,11 @@
 
                 playerThis.stopAudio();
 
-                var next = $(playerThis.playlistHolder).find(this.playlistItemSelector + '.active').next();
+                var next = $(playerThis.playlistHolder).find(playerThis.playlistItemSelector + '.active').next();
 
                 //Looping Activated : play the first item on the playlist if there is no next item with(looping)
                 if ( next.length == 0 ) {
-                    next = $(playerThis.playlistHolder).find(this.playlistItemSelector + ':first-child');      
+                    next = $(playerThis.playlistHolder).find(playerThis.playlistItemSelector + ':first-child');      
                 }
 
                 playerThis.loadNewSong(next);
@@ -238,10 +238,10 @@
 
                 playerThis.stopAudio();
 
-                var prev = $(playerThis.playlistHolder).find(this.playlistItemSelector + '.active').prev();
+                var prev = $(playerThis.playlistHolder).find(playerThis.playlistItemSelector + '.active').prev();
                 //play the last item on the playlist if there is no previous item (looping)
                 if (prev.length == 0 ) {
-                    prev = $(playerThis.playlistHolder).find(this.playlistItemSelector + ':last-child'); 
+                    prev = $(playerThis.playlistHolder).find(playerThis.playlistItemSelector + ':last-child'); 
                 }
 
                 playerThis.loadNewSong(prev);
@@ -423,7 +423,7 @@
                 });
 
                 //Make active the loaded Song playing  
-                $(this.playlistHolder).children(this.playlistItemSelector).removeClass('active');
+                $(this.playlistHolder).children(playerInstance.playlistItemSelector).removeClass('active');
                 elem.addClass('active');
 
 
