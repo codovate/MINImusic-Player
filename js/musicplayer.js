@@ -8,6 +8,7 @@
         // Create the defaults once
         var pluginName = "musicPlayer",
             defaults = {
+                playlistItemSelector: 'li',
                 autoPlay: false , 
                 volume: 80, 
                 loop: false, 
@@ -46,27 +47,27 @@
 
         $.extend( Plugin.prototype, {
             init: function() {
-                var controlInnerElem  = "",
-                    timeInnerElem     = "",
-                    infoElem          = "",  
-                    infoInnerElem     = "",
-                    fullPlayerElem    = "", 
-                    volumeElem        = "",
-                    progressElem      = "",
-                    artworkElem       = "",
-                    timeElem          = "",
-                    controlElem       = "", 
-                    titleElem         = "", 
-                    artistElem        = "",
-                    backwardElem      = "",
-                    forwardElem       = "",
-                    stopElem          = "",
-                    playElem          = "",
-                    curTimeElem       = "",
-                    durTimeElem       = "",
-                    timeSeparator     = "",
-                    playerElem        = "",
-                    playerThis        = this;
+                var controlInnerElem        = "",
+                    timeInnerElem           = "",
+                    infoElem                = "",  
+                    infoInnerElem           = "",
+                    fullPlayerElem          = "", 
+                    volumeElem              = "",
+                    progressElem            = "",
+                    artworkElem             = "",
+                    timeElem                = "",
+                    controlElem             = "", 
+                    titleElem               = "", 
+                    artistElem              = "",
+                    backwardElem            = "",
+                    forwardElem             = "",
+                    stopElem                = "",
+                    playElem                = "",
+                    curTimeElem             = "",
+                    durTimeElem             = "",
+                    timeSeparator           = "",
+                    playerElem              = "",
+                    playerThis              = this;
 
                 for( var elemItem in this.settings.elements ) 
                 { 
@@ -144,31 +145,32 @@
                     $(playerElem).insertAfter($(this.element).find(".playlist"));
                 }
 
-                        this.playlistHolder    = $(this.element).children(".playlist"),
-                        this.playerHolder      = $(this.element).children(".player");
-                        this.song              = "";
-                        this.theBar            = this.playerHolder.find('.progressbar');
-                        this.barPlayed         = this.playerHolder.find('.bar-played');
-                        this.barLoaded         = this.playerHolder.find('.bar-loaded' );
-                        this.timeCurrent       = this.playerHolder.find('.time-current');
-                        this.timeDuration      = this.playerHolder.find('.time-duration' );
-                        this.timeSeparator     = this.settings.timeSeparator;
-                        this.volumeInfo        = this.playerHolder.find('.volume');
-                        this.volumeButton      = this.playerHolder.find('.volume-btn');
-                        this.volumeAdjuster    = this.playerHolder.find('.volume-adjust' + ' > div' );
-                        this.volumeValue       = this.settings.volume / 100;
-                        this.volumeDefault     = 0;
-                        this.trackInfo         = this.playerHolder.find('.info');
+                        this.playlistItemSelector   = this.settings.playlistItemSelector;
+                        this.playlistHolder         = $(this.element).children(".playlist"),
+                        this.playerHolder           = $(this.element).children(".player");
+                        this.song                   = "";
+                        this.theBar                 = this.playerHolder.find('.progressbar');
+                        this.barPlayed              = this.playerHolder.find('.bar-played');
+                        this.barLoaded              = this.playerHolder.find('.bar-loaded' );
+                        this.timeCurrent            = this.playerHolder.find('.time-current');
+                        this.timeDuration           = this.playerHolder.find('.time-duration' );
+                        this.timeSeparator          = this.settings.timeSeparator;
+                        this.volumeInfo             = this.playerHolder.find('.volume');
+                        this.volumeButton           = this.playerHolder.find('.volume-btn');
+                        this.volumeAdjuster         = this.playerHolder.find('.volume-adjust' + ' > div' );
+                        this.volumeValue            = this.settings.volume / 100;
+                        this.volumeDefault          = 0;
+                        this.trackInfo              = this.playerHolder.find('.info');
                         //tracker           = playerHolder.find('.progressbar'),
                         //volume            = playerHolder.find('.volume'),
-                        this.coverInfo         = this.playerHolder.find('.cover'); 
-                        this.controlsInfo      = this.playerHolder.find('.controls');
-                        this.controlPlay       = $(this.controlsInfo).find('.play');
-                        this.controlPause      = $(this.controlsInfo).find('.pause');
-                        this.controlStop       = $(this.controlsInfo).find('.stop');
-                        this.controlFwd        = $(this.controlsInfo).find('.fwd');
-                        this.controlRew        = $(this.controlsInfo).find('.rew'); 
-                        this.cssClass          = 
+                        this.coverInfo              = this.playerHolder.find('.cover'); 
+                        this.controlsInfo           = this.playerHolder.find('.controls');
+                        this.controlPlay            = $(this.controlsInfo).find('.play');
+                        this.controlPause           = $(this.controlsInfo).find('.pause');
+                        this.controlStop            = $(this.controlsInfo).find('.stop');
+                        this.controlFwd             = $(this.controlsInfo).find('.fwd');
+                        this.controlRew             = $(this.controlsInfo).find('.rew'); 
+                        this.cssClass               = 
                         {
                             playing:        'playing',
                             mute:           'mute'
@@ -181,7 +183,7 @@
                 if (/iPad|iPhone|iPod/.test(navigator.userAgent)) $(volumeInfo).hide();
 
                 // initialization - first element in playlist
-                this.initAudio( $(this.playlistHolder.children("li:first-child") ) );
+                this.initAudio( $(this.playlistHolder.children(this.playlistItemSelector + ":first-child") ) );
 
                 // set volume  
                 this.song.volume = this.volumeValue;
@@ -215,11 +217,11 @@
 
                 playerThis.stopAudio();
 
-                var next = $(playerThis.playlistHolder).find('li.active').next();
+                var next = $(playerThis.playlistHolder).find(this.playlistItemSelector + '.active').next();
 
                 //Looping Activated : play the first item on the playlist if there is no next item with(looping)
                 if ( next.length == 0 ) {
-                    next = $(playerThis.playlistHolder).find('li:first-child');      
+                    next = $(playerThis.playlistHolder).find(this.playlistItemSelector + ':first-child');      
                 }
 
                 playerThis.loadNewSong(next);
@@ -236,10 +238,10 @@
 
                 playerThis.stopAudio();
 
-                var prev = $(playerThis.playlistHolder).find('li.active').prev();
+                var prev = $(playerThis.playlistHolder).find(this.playlistItemSelector + '.active').prev();
                 //play the last item on the playlist if there is no previous item (looping)
                 if (prev.length == 0 ) {
-                    prev = $(playerThis.playlistHolder).find('li:last-child'); 
+                    prev = $(playerThis.playlistHolder).find(this.playlistItemSelector + ':last-child'); 
                 }
 
                 playerThis.loadNewSong(prev);
@@ -262,7 +264,7 @@
             });
 
             // Play clicked Playlist song. 
-            $(this.playlistHolder).find('li').click(function (e) {
+            $(this.playlistHolder).find(this.playlistItemSelector).click(function (e) {
                 e.preventDefault();
 
                 playerThis.stopAudio();
@@ -421,7 +423,7 @@
                 });
 
                 //Make active the loaded Song playing  
-                $(this.playlistHolder).children('li').removeClass('active');
+                $(this.playlistHolder).children(this.playlistItemSelector).removeClass('active');
                 elem.addClass('active');
 
 
@@ -466,11 +468,11 @@
             {
                 
                 this.stopAudio();
-                var next = $(this.playlistHolder).children('li.active').next();
+                var next = $(this.playlistHolder).children(this.playlistItemSelector + '.active').next();
 
                 //Looping Activated : play the first item on the playlist if there is no next item with(looping)
                 if (  next.length == 0 && this.settings.loop  ) {
-                    next = $(this.playlistHolder).children('li:first-child')
+                    next = $(this.playlistHolder).children(this.playlistItemSelector + ':first-child')
                     this.loadNewSong(next);
                     this.playAudio();
                 }

@@ -202,15 +202,18 @@ body {
     z-index: 1;
     margin: 0px auto;
 }
-.playlist li {
+.playlist li,
+.playlist div {
     color: #151B48;
     cursor: pointer;
     margin: 0 0 5px 15px;
 }
-.playlist li > a {
+.playlist li > a,
+.playlist div > a {
    color: #151B48;
    text-decoration: none; 
 }
-.playlist li.active {
+.playlist li.active,
+.playlist div.active {
     font-weight: bold;
 }

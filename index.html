@@ -15,13 +15,13 @@
 
     <div class="example">
 
-        <ul class="playlist">
-            <li data-cover="http://digital.akauk.com/utils/musicPlayer/data/epic.jpg" data-artist="John Doe"><a href="http://digital.akauk.com/utils/musicPlayer/data/epic.mp3">Epic</a></li>  
-            <li data-cover="http://digital.akauk.com/utils/musicPlayer/data/acousticbreeze.jpg" data-artist="Sam Doe">
+        <div class="playlist">
+            <div data-cover="http://digital.akauk.com/utils/musicPlayer/data/epic.jpg" data-artist="John Doe"><a href="http://digital.akauk.com/utils/musicPlayer/data/epic.mp3">Epic</a></div>  
+            <div data-cover="http://digital.akauk.com/utils/musicPlayer/data/acousticbreeze.jpg" data-artist="Sam Doe">
                 <a href="http://digital.akauk.com/utils/musicPlayer/data/acousticbreeze.mp3">Acoustic Breeze</a>
-            </li>
-            <li data-cover="http://digital.akauk.com/utils/musicPlayer/data/dubstep.jpg" data-artist="Jane Doe"><a href="http://digital.akauk.com/utils/musicPlayer/data/dubstep.mp3"></a>Dubstep</li>
-        </ul>
+            </div>
+            <div data-cover="http://digital.akauk.com/utils/musicPlayer/data/dubstep.jpg" data-artist="Jane Doe"><a href="http://digital.akauk.com/utils/musicPlayer/data/dubstep.mp3"></a>Dubstep</div>
+        </div>
 
     </div>
 
@@ -39,6 +39,7 @@
 
      <script>
         $(".example").musicPlayer({
+            playlistItemSelector: 'div',
             elements: ['artwork', 'information', 'controls', 'progress', 'time', 'volume'], // ==> This will display in  the order it is inserted
             //elements: [ 'controls' , 'information', 'artwork', 'progress', 'time', 'volume' ],
             //controlElements: ['backward', 'play', 'forward', 'stop'],
