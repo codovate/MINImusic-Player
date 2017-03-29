@@ -1,5 +1,5 @@
 /*
- *  Author Sam Johnson 
+ *  Author Sam Johnson
  *  Under MIT License
  */
 ;( function( $, window, document, undefined ) {
@@ -9,23 +9,23 @@
         var pluginName = "musicPlayer",
             defaults = {
                 playlistItemSelector: 'li',
-                autoPlay: false , 
-                volume: 80, 
-                loop: false, 
+                autoPlay: false ,
+                volume: 80,
+                loop: false,
                 timeSeparator: ' / ',
-                playerAbovePlaylist: true,  
-                infoElements: ['title' , 'artist'] , 
-                elements: ['artwork', 'information', 'controls', 'progress', 'time', 'volume'],  
-                timeElements: ['current', 'duration'],  
-                controlElements: ['backward', 'play', 'forward', 'stop'], 
-                onLoad: function() {}, 
-                onPlay: function() {}, 
-                onPause: function() {}, 
-                onStop: function() {}, 
-                onFwd: function() {}, 
-                onRew: function() {}, 
-                volumeChanged: function() {}, 
-                seeked: function() {} , 
+                playerAbovePlaylist: true,
+                infoElements: ['title' , 'artist'] ,
+                elements: ['artwork', 'information', 'controls', 'progress', 'time', 'volume'],
+                timeElements: ['current', 'duration'],
+                controlElements: ['backward', 'play', 'forward', 'stop'],
+                onLoad: function() {},
+                onPlay: function() {},
+                onPause: function() {},
+                onStop: function() {},
+                onFwd: function() {},
+                onRew: function() {},
+                volumeChanged: function() {},
+                seeked: function() {} ,
                 trackClicked: function() {},
                 onMute: function() {}
             };
@@ -49,15 +49,15 @@
             init: function() {
                 var controlInnerElem        = "",
                     timeInnerElem           = "",
-                    infoElem                = "",  
+                    infoElem                = "",
                     infoInnerElem           = "",
-                    fullPlayerElem          = "", 
+                    fullPlayerElem          = "",
                     volumeElem              = "",
                     progressElem            = "",
                     artworkElem             = "",
                     timeElem                = "",
-                    controlElem             = "", 
-                    titleElem               = "", 
+                    controlElem             = "",
+                    titleElem               = "",
                     artistElem              = "",
                     backwardElem            = "",
                     forwardElem             = "",
@@ -69,52 +69,52 @@
                     playerElem              = "",
                     playerThis              = this;
 
-                for( var elemItem in this.settings.elements ) 
-                { 
-                    
+                for( var elemItem in this.settings.elements )
+                {
+
                     //PREPARE VOLUME
                     if (this.settings.elements[elemItem] == "volume" ) {
 
                         volumeElem   = "<div class='volume'><div class='volume-btn' title='Volume'></div><div class=' volume-adjust'><div><div></div></div></div></div>" ;
-                        fullPlayerElem  += volumeElem; 
+                        fullPlayerElem  += volumeElem;
                     }
                     //PREPARE PROGRESS
                     else if (this.settings.elements[elemItem] == "progress" ) {
                         progressElem = "<div class='progressbar'><div class='bar-loaded' ></div><div class='bar-played'></div></div>";
-                        fullPlayerElem  += progressElem; 
+                        fullPlayerElem  += progressElem;
                     }
                     //PREPARE ARTWORK
                     else if (this.settings.elements[elemItem] == "artwork" ) {
                        artworkElem = "<div class='cover'></div>";
-                       fullPlayerElem  += artworkElem; 
+                       fullPlayerElem  += artworkElem;
                     }
                     //PREPARE INFORMATION displayed by the player in  the given order
                     else if (this.settings.elements[elemItem] == "information" ) {
-                        
+
                         $.inArray("title", this.settings.infoElements ) != '-1'   ? titleElem     = "<div class='title'></div>"  : titleElem = " " ;
                         $.inArray("artist", this.settings.infoElements ) != '-1'  ? artistElem    = "<div class='artist'></div>" : artistElem = " " ;
-                        
-                        for( var item in this.settings.infoElements ) {  
+
+                        for( var item in this.settings.infoElements ) {
                             if (this.settings.infoElements[item] == "title" ) {    infoInnerElem += titleElem;  }
                             else if ( this.settings.infoElements[item]  == "artist" ) {   infoInnerElem += artistElem ;  }
                         }
                         infoElem = "<div class='info' >" + infoInnerElem + "</div>";
-                        fullPlayerElem  += infoElem; 
+                        fullPlayerElem  += infoElem;
                     }
                     //PREPARE TIME (current & Duration) in the given order
                     else if (this.settings.elements[elemItem] == "time" ) {
-                    
-                        $.inArray("current", this.settings.timeElements) != '-1'  ? curTimeElem = "<div class='time-current'></div>" : curTimeElem = " " ;                    
+
+                        $.inArray("current", this.settings.timeElements) != '-1'  ? curTimeElem = "<div class='time-current'></div>" : curTimeElem = " " ;
                         $.inArray("duration", this.settings.timeElements) != '-1' ? durTimeElem = "<div class='time-duration'></div>" : durTimeElem = " " ;
-                        timeSeparator =  "<div class='time-separator'>" + this.settings.timeSeparator.replace(/\s/g, '&nbsp;') + "</div>" ;  
-                        
-                        for( var item in this.settings.timeElements ) {  
+                        timeSeparator =  "<div class='time-separator'>" + this.settings.timeSeparator.replace(/\s/g, '&nbsp;') + "</div>" ;
+
+                        for( var item in this.settings.timeElements ) {
                             if( item == 1 ) { timeInnerElem +=  timeSeparator; }
                             if (this.settings.timeElements[item] == "current" ) {    timeInnerElem += curTimeElem ;  }
                             else if ( this.settings.timeElements[item]  == "duration" ) {   timeInnerElem += durTimeElem;  }
                         }
                         timeElem = "<div class='timeHolder'>" + timeInnerElem + "</div>";
-                        fullPlayerElem  += timeElem; 
+                        fullPlayerElem  += timeElem;
                     }
                     //PREPARE CONTROLS inner elements to display [play, stop, forward or backward] in the given order
                     else if (this.settings.elements[elemItem] == "controls" ) {
@@ -124,17 +124,17 @@
                         $.inArray("stop", this.settings.controlElements) != '-1'      ? stopElem       = "<div class='stop'></div>"       : stopElem      = " " ;
                         $.inArray("play", this.settings.controlElements) != '-1'      ? playElem       = "<div class='play'></div><div class='pause'></div>" : playElem  = " " ;
 
-                        for( var item in this.settings.controlElements ) {  
+                        for( var item in this.settings.controlElements ) {
                             if (this.settings.controlElements[item] == "backward" ) {       controlInnerElem  +=  backwardElem ;  }
                             else if (this.settings.controlElements[item] == "play" ) {      controlInnerElem +=  playElem;  }
                             else if (this.settings.controlElements[item] == "forward" ) {   controlInnerElem +=  forwardElem;  }
                             else if (this.settings.controlElements[item] == "stop" ) {   controlInnerElem +=  stopElem;  }
                         }
                         controlElem   = "<div class='controls'>" + controlInnerElem + "</div>";
-                        fullPlayerElem  += controlElem; 
+                        fullPlayerElem  += controlElem;
                     }
                 }
-                
+
 
                 //ADD THE PREPARED ELEMENT SORTED IN THEIR RIGHT ORDER TO THE PLAYER ELEMENT
                 playerElem = $("<div class='player' >" + fullPlayerElem + "</div>");
@@ -163,34 +163,34 @@
                         this.trackInfo              = this.playerHolder.find('.info');
                         //tracker           = playerHolder.find('.progressbar'),
                         //volume            = playerHolder.find('.volume'),
-                        this.coverInfo              = this.playerHolder.find('.cover'); 
+                        this.coverInfo              = this.playerHolder.find('.cover');
                         this.controlsInfo           = this.playerHolder.find('.controls');
                         this.controlPlay            = $(this.controlsInfo).find('.play');
                         this.controlPause           = $(this.controlsInfo).find('.pause');
                         this.controlStop            = $(this.controlsInfo).find('.stop');
                         this.controlFwd             = $(this.controlsInfo).find('.fwd');
-                        this.controlRew             = $(this.controlsInfo).find('.rew'); 
-                        this.cssClass               = 
+                        this.controlRew             = $(this.controlsInfo).find('.rew');
+                        this.cssClass               =
                         {
                             playing:        'playing',
                             mute:           'mute'
                         };
 
-                //Volume cannot be set using JavaScript, so the volumechange event will never be fired. 
+                //Volume cannot be set using JavaScript, so the volumechange event will never be fired.
                 //Even if the user changes the volume on their device while mobile Safari is open, this event will not fire
                 //source: https://www.ibm.com/developerworks/library/wa-ioshtml5/
-                //Hide Volume control on IOS devices. 
-                if (/iPad|iPhone|iPod/.test(navigator.userAgent)) $(volumeInfo).hide();
+                //Hide Volume control on IOS devices.
+                if (/iPad|iPhone|iPod/.test(navigator.userAgent)) $(this.volumeInfo).hide();
 
                 // initialization - first element in playlist
                 this.initAudio( $(this.playlistHolder.children(this.playlistItemSelector + ":first-child") ) );
 
-                // set volume  
+                // set volume
                 this.song.volume = this.volumeValue;
 
                 //set default time Current and duration time
                 this.timeDuration.html( '&hellip;' );
-                this.timeCurrent.text( this.secondsToTime( 0 ) );  
+                this.timeCurrent.text( this.secondsToTime( 0 ) );
 
 
             // play click
@@ -198,7 +198,7 @@
                 e.preventDefault();
 
                 playerThis.playAudio();
-            
+
             });
 
             // pause click
@@ -221,7 +221,7 @@
 
                 //Looping Activated : play the first item on the playlist if there is no next item with(looping)
                 if ( next.length == 0 ) {
-                    next = $(playerThis.playlistHolder).find(playerThis.playlistItemSelector + ':first-child');      
+                    next = $(playerThis.playlistHolder).find(playerThis.playlistItemSelector + ':first-child');
                 }
 
                 playerThis.loadNewSong(next);
@@ -241,7 +241,7 @@
                 var prev = $(playerThis.playlistHolder).find(playerThis.playlistItemSelector + '.active').prev();
                 //play the last item on the playlist if there is no previous item (looping)
                 if (prev.length == 0 ) {
-                    prev = $(playerThis.playlistHolder).find(playerThis.playlistItemSelector + ':last-child'); 
+                    prev = $(playerThis.playlistHolder).find(playerThis.playlistItemSelector + ':last-child');
                 }
 
                 playerThis.loadNewSong(prev);
@@ -252,18 +252,18 @@
 
             });
 
-            //stop click 
+            //stop click
             $(this.controlStop).click(function (e) {
                 e.preventDefault();
 
                 playerThis.stopAudio();
                 playerThis.song.currentTime = 0;
-                
+
                 //issue stop callback
                 playerThis.settings.onStop();
             });
 
-            // Play clicked Playlist song. 
+            // Play clicked Playlist song.
             $(this.playlistHolder).find(this.playlistItemSelector).click(function (e) {
                 e.preventDefault();
 
@@ -277,21 +277,21 @@
 
 
             },
-            
-            secondsToTime: function( secs ) 
+
+            secondsToTime: function( secs )
             {
-                var hours = Math.floor( secs / 3600 ), 
-                minutes = Math.floor( secs % 3600 / 60 ), 
+                var hours = Math.floor( secs / 3600 ),
+                minutes = Math.floor( secs % 3600 / 60 ),
                 seconds = Math.ceil( secs % 3600 % 60 );
 
                 return ( hours == 0 ? '' : hours > 0 && hours.toString().length < 2 ? '0'+hours+':' : hours+':' ) + ( minutes.toString().length < 2 ? '0'+minutes : minutes ) + ':' + ( seconds.toString().length < 2 ? '0'+seconds : seconds );
             },
             adjustVolume: function( e )
-            {  
+            {
                 // volElemClicked  = e.toElement.parentElement;
                 // volElemClicked  = $(volElemClicked).parent().parent().parent().parent();
                 // console.log(e);
-                var theRealEvent     = isTouch ? e.originalEvent.touches[ 0 ] : e; 
+                var theRealEvent     = isTouch ? e.originalEvent.touches[ 0 ] : e;
                 this.song.volume     = Math.abs( ( theRealEvent.pageX - ( this.volumeAdjuster.offset().left ) ) / this.volumeAdjuster.width() );
 
             },
@@ -301,7 +301,7 @@
                 this.song.currentTime    = Math.round( ( this.song.duration * ( theRealEvent.pageX - this.theBar.offset().left ) ) / this.theBar.width() );
             },
 
-            initAudio: function(elem) 
+            initAudio: function(elem)
             {
                 var url     = elem.children("a:first-child").attr("href"),
                     title   = elem.text(),
@@ -309,15 +309,15 @@
                     artist  = elem.attr('data-artist'),
                     playerInstance = this;
 
-                //Set the title of the song  on the player  
+                //Set the title of the song  on the player
                 $(this.trackInfo).children('.title').text(title);
                 //Set the artist name on the player
                 $(this.trackInfo).children('.artist').text(artist);
 
-                //Set the cover image for the player 
+                //Set the cover image for the player
                 $(this.coverInfo).css('background-image','url('+ cover +')');
-                 
-                this.song = new Audio(url); 
+
+                this.song = new Audio(url);
 
                 //Force load
                 this.song.load();
@@ -331,18 +331,18 @@
 
                 }, false);
 
-             
-                //update bar loader 
+
+                //update bar loader
                 this.song.addEventListener('progress', function()
                 {
                     $(playerInstance.barLoaded).width( ( this.buffered.end( 0 ) / this.duration ) * 100 + '%' );
                 });
 
                 //timeupdate event listener (timeupdate used together with the current Time Property to return
-                // the current position of the audio playback in seconds)   
+                // the current position of the audio playback in seconds)
                 this.song.addEventListener('timeupdate',function ()
                 {
-                    $(playerInstance.timeCurrent).text( playerInstance.secondsToTime(this.currentTime ) ); 
+                    $(playerInstance.timeCurrent).text( playerInstance.secondsToTime(this.currentTime ) );
                     $(playerInstance.barPlayed).width( (this.currentTime / this.duration ) * 100 + '%' );
 
                 });
@@ -358,10 +358,10 @@
                 });
 
                 this.song.addEventListener('ended', function()
-                {   
+                {
                      //Play the loaded song when autoplay is activated
-                      //$('.fwd').click(); 
-                    if (playerInstance.settings.autoPlay){ playerInstance.autoPlayNext(); } 
+                      //$('.fwd').click();
+                    if (playerInstance.settings.autoPlay){ playerInstance.autoPlayNext(); }
                     else {
                         //Hide playing class
                         playerInstance.playerHolder.removeClass( playerInstance.cssClass.playing );
@@ -372,7 +372,7 @@
 
                 });
 
-                //Toggle Mute icon and reset Volume   
+                //Toggle Mute icon and reset Volume
                 $(this.volumeButton).on('click', function()
                 {
 
@@ -388,7 +388,7 @@
                         playerInstance.song.volume = 0;
                         //issue callback to track mute action.
                         playerInstance.settings.onMute();
-                        
+
                     }
 
                     return false;
@@ -406,10 +406,10 @@
                 .on( eCancel, function()
                 {
                     playerInstance.volumeAdjuster.unbind( eMove );
-                    
+
                 });
 
-                //when trackbar is click 
+                //when trackbar is click
                 $(this.theBar).on( eStart, function( e )
                 {
                     playerInstance.adjustCurrentTime( e );
@@ -422,7 +422,7 @@
                     playerInstance.settings.seeked();
                 });
 
-                //Make active the loaded Song playing  
+                //Make active the loaded Song playing
                 $(this.playlistHolder).children(playerInstance.playlistItemSelector).removeClass('active');
                 elem.addClass('active');
 
@@ -431,17 +431,17 @@
                 this.settings.onLoad();
 
                 //Play the loaded song when autoplay is activated
-                if (this.settings.autoPlay) this.playAudio();  
-  
+                if (this.settings.autoPlay) this.playAudio();
+
             },
-            playAudio: function() 
-            { 
+            playAudio: function()
+            {
                 this.song.play();
 
                 //Add playing class
                 this.playerHolder.addClass(this.cssClass.playing);
 
-                //Hide pause Icon and show play if they exist 
+                //Hide pause Icon and show play if they exist
                 if ( $.inArray("controls", this.settings.elements ) != '-1' && $.inArray("play", this.settings.controlElements ) != '-1'  ) {
                     $(this.controlPlay).addClass('hidden');
                     $(this.controlPause).addClass('visible');
@@ -450,23 +450,23 @@
                 this.settings.onPlay();
             },
 
-            stopAudio: function() 
+            stopAudio: function()
             {
                 this.song.pause();
                 //Remove playing class
                 this.playerHolder.removeClass(this.cssClass.playing);
 
-                //Hide pause Icon and show play if they exist 
+                //Hide pause Icon and show play if they exist
                 if ( $.inArray("controls", this.settings.elements ) != '-1' && $.inArray("play", this.settings.controlElements ) != '-1' ) {
                     $(this.controlPlay).removeClass('hidden');
                     $(this.controlPause).removeClass('visible');
                 }
-                
+
             },
             // Auto Play the next track and loop if lopp is activated
-            autoPlayNext: function() 
+            autoPlayNext: function()
             {
-                
+
                 this.stopAudio();
                 var next = $(this.playlistHolder).children(this.playlistItemSelector + '.active').next();
 
@@ -481,8 +481,8 @@
                     this.playAudio();
                 }
             },
-            //initiate the give song maintaining current settings 
-            loadNewSong: function(elem) 
+            //initiate the give song maintaining current settings
+            loadNewSong: function(elem)
             {
                 //save current volume  level
                 this.volumeValue = this.song.volume;

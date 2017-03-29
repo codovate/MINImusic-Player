@@ -1,0 +1,219 @@
+/*
+    AUTHOR: Sam Johnson
+    MINIMusic Player
+*/
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #141942;
+}
+
+/* HTML5 Audio player with playlist styles */
+.example, .example2 {
+    margin: 50px auto 0;
+    width: 390px;
+}
+
+.player {
+    background: #f09f8b;
+    height: 220px;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+}
+.title, .artist {
+    font-family: verdana;
+    left: 167px;
+    position: absolute;
+
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+.title {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    top: 23px;
+}
+.artist {
+    color: #EEEEEE;
+    font-size: 12px;
+    top: 40px;
+}
+.pl {
+    background: url(../images/playlist.png) no-repeat;
+    cursor: pointer;
+    height: 40px;
+    left: 330px;
+    position: absolute;
+    top: 20px;
+    width: 39px;
+}
+.pl:hover {
+    top: 21px;
+}
+.cover {
+    border-radius: 5px 5px 5px 5px;
+    height: 94px;
+    left: 20px;
+    position: absolute;
+    top: 30px;
+    width: 94px;
+}
+.controls {
+    cursor: pointer;
+    left: 0px;
+    position: absolute;
+    top: 65px;
+    left: 122px;
+}
+.controls .play, .controls .pause {
+    width: 60px;
+    height: 60px;
+    margin: 0 5px 0px 5px;
+}
+.controls .play, .controls .pause, .controls .rew, .controls .fwd, .controls .stop {
+   text-indent: -10000px;
+    border: none;
+    float: left;
+}
+.controls .rew, .controls .fwd, .controls .stop {
+    width: 50px;
+    height: 50px;
+    margin: 5px 5px 5px 5px;
+}
+.controls .play {
+    background: url(../images/play.png) no-repeat;
+}
+.controls .pause {
+    background: url(../images/pause.png) no-repeat;
+    display: none;
+}
+.controls .rew {
+    background: url(../images/rewind.png) no-repeat;
+}
+.controls .fwd {
+    background: url(../images/next.png) no-repeat;
+}
+.controls .stop {
+    background: url(../images/stop.png) no-repeat;
+}
+.hidden {
+    display: none;
+}
+.controls .visible {
+    display: block;
+}
+.volume {
+    height: 11px;
+    left: 230px;
+    position: absolute;
+    top: 142px;
+    width: 140px;
+}
+.mute  .volume-btn {
+    background: url(../images/volume-off.png) no-repeat;
+}
+.volume-btn {
+    background: url(../images/volume-up.png) no-repeat;
+    height: 20px;
+    width: 20px;
+    float: left;
+    position: relative;
+    top: -4px;
+}
+.volume-adjust {
+    height: 11px;
+    position: relative;
+    width: 80%;
+    background: #fff;
+    float: right;
+}
+.volume-adjust  > div > div {
+    height: 11px;
+    background: #151B48;
+}
+.progressbar
+{
+    background-color: #fff;
+    cursor: pointer;
+    z-index: 1;
+    right: 6.875em; /* 110 */
+     height: 15px;
+    left: 0px;
+    position: absolute;
+    width: 90%;
+    top: 170px;
+    margin: 0px 5%;
+}
+.novolume .progressbar
+{
+    right: 4.375em; /* 70 */
+}
+.progressbar div
+{
+    width: 0%;
+    height: 15px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.bar-loaded
+{
+    background-color: #f1f1f1;
+    z-index: 1;
+}
+.bar-played
+{
+    background: #151B48;
+    z-index: 2;
+}
+.timeHolder {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    bottom: 10px;
+    position: absolute;
+    margin: 0px 5%;
+    width: 90%;
+}
+.time-current, .time-duration, .time-separator {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    float: left;
+}
+.volume .ui-slider-handle {
+    background: url("../images/spr.png") no-repeat scroll -201px -188px rgba(0, 0, 0, 0);
+    height: 13px;
+    width: 13px;
+}
+.playlist {
+    background-color: #fff;
+    list-style-type: none;
+    margin: -10px 0 0 2px;
+    padding-bottom: 10px;
+    padding-top: 15px;
+    position: relative;
+    width: 95%;
+    z-index: 1;
+    margin: 0px auto;
+}
+.playlist li,
+.playlist div {
+    color: #151B48;
+    cursor: pointer;
+    margin: 0 0 5px 15px;
+}
+.playlist li > a,
+.playlist div > a {
+   color: #151B48;
+   text-decoration: none;
+}
+.playlist li.active,
+.playlist div.active {
+    font-weight: bold;
+}
