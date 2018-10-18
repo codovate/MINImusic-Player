@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="author" content="Script Tutorials" />
@@ -8,102 +9,193 @@
 
     <!-- add styles and scripts -->
     <link href="css/styles.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>    
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/musicplayer.js"></script>
+    <!-- Add the slick-theme.css if you want default styling -->
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" />
+    <!-- Add the slick-theme.css if you want default styling -->
+
 </head>
+
 <body>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 
     <div class="example">
+        <ul class="playlist">
+            <li data-cover="http://digital.akauk.com/utils/musicPlayer/data/John-Wesley.jpg" data-artist="John Wesley"><a
+                    href="http://digital.akauk.com/utils/musicPlayer/data/Tequila 10 Seconds.mp3">Tequila 10 Seconds</a></li>
 
-        <div class="playlist">
-            <div data-cover="http://digital.akauk.com/utils/musicPlayer/data/epic.jpg" data-artist="John Doe"><a href="http://digital.akauk.com/utils/musicPlayer/data/epic.mp3">Epic</a></div>  
-            <div data-cover="http://digital.akauk.com/utils/musicPlayer/data/acousticbreeze.jpg" data-artist="Sam Doe">
-                <a href="http://digital.akauk.com/utils/musicPlayer/data/acousticbreeze.mp3">Acoustic Breeze</a>
-            </div>
-            <div data-cover="http://digital.akauk.com/utils/musicPlayer/data/dubstep.jpg" data-artist="Jane Doe"><a href="http://digital.akauk.com/utils/musicPlayer/data/dubstep.mp3"></a>Dubstep</div>
-        </div>
-
+            <li data-cover="http://digital.akauk.com/utils/musicPlayer/data/john-doe.jpg" data-artist="John Doe"><a
+                    href="http://digital.akauk.com/utils/musicPlayer/data/new.mp3">Perfect</a></li>
+            <li data-cover="http://digital.akauk.com/utils/musicPlayer/data/jimi_hendrix.jpg" data-artist="Jimi Hendrix"><a
+                    href="http://digital.akauk.com/utils/musicPlayer/data/purple-haze.mp3">Purple Haze</a></li>
+        </ul>
     </div>
 
     <div class="example2">
-
         <ul class="playlist">
+            <li data-cover="http://digital.akauk.com/utils/musicPlayer/data/epic.jpg" data-artist="John Doe"><a href="http://digital.akauk.com/utils/musicPlayer/data/epic.mp3">Epic</a>
+            </li>
             <li data-cover="http://digital.akauk.com/utils/musicPlayer/data/acousticbreeze.jpg" data-artist="Sam Doe">
                 <a href="http://digital.akauk.com/utils/musicPlayer/data/acousticbreeze.mp3">Acoustic Breeze</a>
             </li>
             <li data-cover="http://digital.akauk.com/utils/musicPlayer/data/dubstep.jpg" data-artist="Jane Doe"><a href="http://digital.akauk.com/utils/musicPlayer/data/dubstep.mp3"></a>Dubstep</li>
-            
         </ul>
-
     </div>
 
-     <script>
+    <header>
+        <h2>Using Custom Selector For Matching Playlist Items </h2>
+    </header>
+    <div class="example3">
+        <div class="playlist">
+            <div class="song-item" data-cover="http://digital.akauk.com/utils/musicPlayer/data/epic.jpg" data-artist="John Doe"><a
+                    href="http://digital.akauk.com/utils/musicPlayer/data/epic.mp3">Epic</a></div>
+            <div class="song-item" data-cover="http://digital.akauk.com/utils/musicPlayer/data/acousticbreeze.jpg"
+                data-artist="Sam Doe">
+                <a href="http://digital.akauk.com/utils/musicPlayer/data/acousticbreeze.mp3">Acoustic Breeze</a>
+            </div>
+            <div class="song-item" data-cover="http://digital.akauk.com/utils/musicPlayer/data/dubstep.jpg" data-artist="Jane Doe"><a
+                    href="http://digital.akauk.com/utils/musicPlayer/data/dubstep.mp3"></a>Dubstep</div>
+        </div>
+    </div>
+
+
+    <script>
+
         $(".example").musicPlayer({
-            playlistItemSelector: 'div',
             elements: ['artwork', 'information', 'controls', 'progress', 'time', 'volume'], // ==> This will display in  the order it is inserted
             //elements: [ 'controls' , 'information', 'artwork', 'progress', 'time', 'volume' ],
             //controlElements: ['backward', 'play', 'forward', 'stop'],
             //timeElements: ['current', 'duration'],
-           //timeSeparator: " : ", // ==> Only used if two elements in timeElements option
-            //infoElements: [  'title', 'artist' ],  
+            //timeSeparator: " : ", // ==> Only used if two elements in timeElements option
+            //infoElements: [  'title', 'artist' ],
 
             //volume: 10,
             //autoPlay: true,
             //loop: true,
-         
-            onPlay: function() {
-               $('body').css('background', 'black');
+
+            onPlay: function () {
+                $('body').css('background', 'black');
             },
-            onPause: function() {
+            onPause: function () {
                 $('body').css('background', 'green');
             },
-            onStop: function() {
+            onStop: function () {
                 $('body').css('background', '#141942');
             },
-            onFwd: function() {
+            onFwd: function () {
                 $('body').css('background', 'white');
             },
-            onRew: function() {
+            onRew: function () {
                 $('body').css('background', 'blue');
             },
-            volumeChanged: function() {
+            volumeChanged: function () {
                 $('body').css('background', 'red');
             },
-            seeked: function() {
-               $('body').css('background', 'orange');
+            progressChanged: function () {
+                $('body').css('background', 'orange');
             },
-            trackClicked: function() {
-               $('body').css('background', 'brown');
+            trackClicked: function () {
+                $('body').css('background', 'brown');
             },
-            onMute: function() {
-               $('body').css('background', 'grey');
+            onMute: function () {
+                $('body').css('background', 'grey');
             },
+        });
 
+        $('.example3 .playlist').on('init', function (event, slick) {
+
+            $(".example3").musicPlayer({
+                playlistItemSelector: '.slick-slide:not(.slick-cloned) .song-item',
+                elements: ['artwork', 'information', 'controls', 'progress', 'time', 'volume'], // ==> This will display in  the order it is inserted
+                //elements: [ 'controls' , 'information', 'artwork', 'progress', 'time', 'volume' ],
+                //controlElements: ['backward', 'play', 'forward', 'stop'],
+                //timeElements: ['current', 'duration'],
+                //timeSeparator: " : ", // ==> Only used if two elements in timeElements option
+                //infoElements: [  'title', 'artist' ],
+
+                //volume: 10,
+                autoPlay: true,
+                loop: true,
+
+                onPlay: function () {
+                    $('body').css('background', 'black');
+                },
+                onPause: function () {
+                    $('body').css('background', 'green');
+                },
+                onStop: function () {
+                    $('body').css('background', '#141942');
+                },
+                onFwd: function () {
+                    $('body').css('background', 'white');
+                    slideToActive();
+                },
+                onRew: function () {
+                    $('body').css('background', 'blue');
+                    slideToActive();
+                },
+                volumeChanged: function () {
+                    $('body').css('background', 'red');
+                },
+                seeked: function () {
+                    $('body').css('background', 'orange');
+                },
+                trackClicked: function () {
+                    $('body').css('background', 'brown');
+                },
+                onMute: function () {
+                    $('body').css('background', 'grey');
+                },
+
+            });
+
+        });
+        //slick slider initialisation
+        $(".example3 .playlist").slick({
+            arrows: false,
+            dots: true
+        });
+
+        slideToActive = function () {
+            var slideIndex = $('.slick-slide:not(.slick-cloned) .song-item.active').closest('.slick-slide').attr('data-slick-index');
+            $('.example .playlist').slick('slickGoTo', slideIndex);
+        }
+
+        $('.slick-dots button').click(function () {
+            var index = $(this).text() - 1;
+            index = '[data-slick-index="' + index + '"]';
+            $('.slick-slide:not(.slick-cloned)' + index + ' .song-item a').click();
+        });
+
+        $(".example2").musicPlayer({
+            //volume: 10,
+            //elements: ['artwork', 'controls', 'progress', 'time', 'volume'],
+            //playerAbovePlaylist: false,
+            // autoPlay: true,
+            // loop: true,
+            onLoad: function () {
+                //Add Audio player
+                plElem = "<div class='pl'></div>";
+                $('.example2').find('.player').append(plElem);
+                // show playlist
+                $('.pl').click(function (e) {
+                    e.preventDefault();
+                    $('.example2').find('.playlist').toggleClass("hidden");
+                });
+            },
 
         });
 
-    $(".example2").musicPlayer({
-         //volume: 10,
-         //elements: ['artwork', 'controls', 'progress', 'time', 'volume'],
-        //playerAbovePlaylist: false,
-        onLoad: function() {
-            //Add Audio player
-            plElem  = "<div class='pl'></div>";
-            $('.example2').find('.player').append(plElem);
-            // show playlist
-            $('.pl').click(function (e) {
-                e.preventDefault();
 
-                $('.example2').find('.playlist').toggleClass("hidden");
-            });
-        },
 
-   });
 
 
     </script>
 
-   
-</body>
-</html>
 
+</body>
+
+</html>
